@@ -18,7 +18,6 @@ struct Wheel: View {
             Picker("Steps", selection: $selectedLetter) {
                     ForEach(letters, id: \.self) { letter in
                         Text("\(letter)")
-                            .foregroundColor(letter == freeLetter ? .blue : .black)
                     }
                 }  .scaleEffect(2)
                 .pickerStyle(.wheel)
