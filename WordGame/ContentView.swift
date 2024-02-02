@@ -57,6 +57,12 @@ struct ContentView: View {
                 timer.invalidate()
             }
         }
+        
+        if let timer = countdownTimer {
+            RunLoop.main.add(timer, forMode: .common)
+
+        }
+
     }
     
     private func endGameCountdown() {
@@ -65,9 +71,7 @@ struct ContentView: View {
         withAnimation(.easeInOut(duration: 1)) {   // << here !!
             showGame = false
         }
-        withAnimation(.linear(duration: 2)) {   // << here !!
-            ending = true
-        }
+     
         Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
             if countdown > 0 {
                 countdown -= 1
@@ -75,13 +79,8 @@ struct ContentView: View {
             } else {
                 withAnimation(.easeOut(duration: 1)){
                     showGame = true
-                    
-                    
                 }
-                ending = false
-                
                 waterFallOpacity = 1.0
-                
                 timer.invalidate()
             }
         }
@@ -91,26 +90,17 @@ struct ContentView: View {
     
     var body: some View {
         ZStack{
-//            if(ending){
-                EmitterView()
-                    .scaleEffect(ending ? 1: 0, anchor: .top)
-                    .opacity(waterFallOpacity)
-                    .ignoresSafeArea()
-//            }
-            
             if(showGame){
-                
                 VStack {
                     Text(hint1 ?? "NONE")
                     Text("Score \(solvedWords.count)")
                         .font(.system(size: 30)) // You can adjust the size (e.g., 20) as per your requirement
-                        .padding()
+                        .padding(.bottom, 10)
                     
                     
                     Text(viewModel.gameWords[state].hint)
-                        .font(.system(size: 30))
-                        .padding(.bottom, 80)
-                        .padding(.top, 20)
+                        .font(.system(size: 25))
+                        .padding()
                     
                     
                     HStack(alignment: .top){
@@ -136,81 +126,71 @@ struct ContentView: View {
                         }
                         
                     }.frame(maxHeight: .infinity)
+                        .padding(.top,50)
                     
+
                     HStack{
-                        Text(letter1)
-                            .font(.title)
-                        Text(letter2)
-                            .font(.title)
-                        Text(letter3)
-                            .font(.title)
-                        Text(letter4)
-                            .font(.title)
-                        
-                    }.padding()
-                    Button(action: {
-                        if isButtonActive {
-                            startCountdown()
-                            switch hintState {
-                            case 0:
-                                hint1 = ("\(viewModel.gameWords[state].word[0])".capitalized)
-                            case 1:
-                                hint2 = ("\(viewModel.gameWords[state].word[1])".capitalized)
-                            case 2:
-                                hint3 = ("\(viewModel.gameWords[state].word[2])".capitalized)
-                            case 3:
-                                hint4 = ("\(viewModel.gameWords[state].word[3])".capitalized)
-                            default:
-                                print("")
+                        Button(action: {
+                            if isButtonActive {
+                                startCountdown()
+                                switch hintState {
+                                case 0:
+                                    hint1 = ("\(viewModel.gameWords[state].word[0])".capitalized)
+                                case 1:
+                                    hint2 = ("\(viewModel.gameWords[state].word[1])".capitalized)
+                                case 2:
+                                    hint3 = ("\(viewModel.gameWords[state].word[2])".capitalized)
+                                case 3:
+                                    hint4 = ("\(viewModel.gameWords[state].word[3])".capitalized)
+                                default:
+                                    print("")
+                                }
+                                hintState += 1
+                                
                             }
-                            hintState += 1
-                            
+                        }) {
+                            HintTimer(progress: 1 - (Double(countdown) / 10.0))
                         }
-                    }) {
-                        HStack{
-                            Text("\(countdown)")
-                                .font(.system(size: 20))
-                            Text("Hint")
+                        .disabled(!isButtonActive)
+                        .padding()
+                        Button{
+                            let combined = letter1 + letter2 + letter3 + letter4
+                            if LocalDictionary.shared.isWordInEnglishDictionary(word: combined) {
+                                if(!solvedWords.contains(combined)){
+                                    solvedWords.append(combined)
+                                    AudioServicesPlaySystemSound(1305)
+                                    
+                                    if(state < viewModel.gameWords.count - 1){
+                                        state += 1
+                                        hintState = 0
+                                        hint1 = nil
+                                        hint2 = nil
+                                        hint3 = nil
+                                        hint4 = nil
+                                        
+                                        startCountdown()
+                                    }else{
+                                        showingAlert = true
+                                    }
+                                    print("State updated to \(state)")
+                                }
+                            } else {
+                                print("\(combined) is not a valid English word.")
+                            }
+    //                        endGameCountdown()
+                            
+                            
+                        }label:{
+                            Text("SUBMIT")
                                 .padding()
                                 .foregroundColor(.white)
-                                .background(isButtonActive ? Color.blue : Color.gray)
-                                .cornerRadius(10)
-                        }.frame(width: 200)
-                        
+                                .background(.black)
+                                .font(.title)
+                                .clipShape(Capsule())
+                            
+                        }.padding()
                     }
-                    .disabled(!isButtonActive)
-                    Button{
-                        let combined = letter1 + letter2 + letter3 + letter4
-                        if LocalDictionary.shared.isWordInEnglishDictionary(word: combined) {
-                            if(!solvedWords.contains(combined)){
-                                solvedWords.append(combined)
-                                AudioServicesPlaySystemSound(1305)
-                                
-                                if(state < viewModel.gameWords.count - 1){
-                                    state += 1
-                                    hintState = 0
-                                    hint1 = nil
-                                    hint2 = nil
-                                    hint3 = nil
-                                    hint4 = nil
-                                    
-                                    startCountdown()
-                                }else{
-                                    showingAlert = true
-                                }
-                                print("State updated to \(state)")
-                            }
-                        } else {
-                            print("\(combined) is not a valid English word.")
-                        }
-                        endGameCountdown()
-                        
-                        
-                    }label:{
-                        Text("Submit")
-                            .font(.title)
-                        
-                    }.padding()
+
                 }.onAppear(){
                     wheelLetters = viewModel.generateLetters()
                     letter1 = wheelLetters[0][0]
