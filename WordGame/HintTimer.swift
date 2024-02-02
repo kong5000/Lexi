@@ -38,7 +38,7 @@ struct HintTimer: View {
                 .foregroundColor(.white)
                 .animation(.easeOut, value: progress)
         }.frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/)
-            .animation(.easeOut, value: progress)
+            .animation(.easeIn, value: progress)
     }
 }
 

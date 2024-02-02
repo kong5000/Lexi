@@ -10,7 +10,6 @@ import SwiftUI
 struct Wheel: View {
     @Binding var selectedLetter: String
     @State private var onChangedExecuted = false
-    var freeLetter: String
     var letters: [String]
     @Binding var hint: String?
     
@@ -37,5 +36,5 @@ struct Wheel: View {
 }
 
 #Preview {
-    Wheel(selectedLetter: .constant("A"), freeLetter: "C", letters: ["A","B","C"], hint:.constant("A"))
+    Wheel(selectedLetter: .constant("A"), letters: ["A","B","C"], hint:.constant("A"))
 }

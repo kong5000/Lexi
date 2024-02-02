@@ -7,17 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5304D7102B6AE9B2002BD217 /* 4_letter_common.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5304D70F2B6AE9B2002BD217 /* 4_letter_common.txt */; };
 		5304D7162B6BD1FB002BD217 /* 4_letter_words.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5304D7152B6BD1FB002BD217 /* 4_letter_words.txt */; };
-		5304D7182B6BD24D002BD217 /* word_hint.csv in Resources */ = {isa = PBXBuildFile; fileRef = 5304D7172B6BD24D002BD217 /* word_hint.csv */; };
 		5304D71A2B6BE2C4002BD217 /* 4_letter_word_hints_no_duplicates.csv in Resources */ = {isa = PBXBuildFile; fileRef = 5304D7192B6BE2C4002BD217 /* 4_letter_word_hints_no_duplicates.csv */; };
-		5304D71C2B6C103F002BD217 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 5304D71B2B6C103F002BD217 /* star.png */; };
-		5304D71E2B6C10B2002BD217 /* star_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 5304D71D2B6C10B2002BD217 /* star_small.png */; };
-		5304D7202B6C11C7002BD217 /* A_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 5304D71F2B6C11C7002BD217 /* A_small.png */; };
-		5304D7242B6C132A002BD217 /* M_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 5304D7212B6C1329002BD217 /* M_small.png */; };
-		5304D7252B6C132A002BD217 /* E_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 5304D7222B6C132A002BD217 /* E_small.png */; };
-		5304D7262B6C132A002BD217 /* J_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 5304D7232B6C132A002BD217 /* J_small.png */; };
-		5304D7282B6C2DE5002BD217 /* 4_letter_words copy.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5304D7272B6C2DE5002BD217 /* 4_letter_words copy.txt */; };
 		5304D72A2B6D0456002BD217 /* HintTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D7292B6D0456002BD217 /* HintTimer.swift */; };
 		5304D72C2B6D1A8F002BD217 /* SegmentedProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D72B2B6D1A8F002BD217 /* SegmentedProgress.swift */; };
 		535156D92B6A65A20040E539 /* WordGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535156D82B6A65A20040E539 /* WordGameApp.swift */; };
@@ -27,8 +18,6 @@
 		535156EA2B6A65A30040E539 /* WordGameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535156E92B6A65A30040E539 /* WordGameTests.swift */; };
 		535156F42B6A65A30040E539 /* WordGameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535156F32B6A65A30040E539 /* WordGameUITests.swift */; };
 		535156F62B6A65A30040E539 /* WordGameUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535156F52B6A65A30040E539 /* WordGameUITestsLaunchTests.swift */; };
-		535157032B6A6E4E0040E539 /* LetterScroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535157022B6A6E4E0040E539 /* LetterScroller.swift */; };
-		535157052B6A7B4B0040E539 /* ScrolSnap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535157042B6A7B4B0040E539 /* ScrolSnap.swift */; };
 		535157072B6A811F0040E539 /* Wheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535157062B6A811F0040E539 /* Wheel.swift */; };
 		535157092B6A95100040E539 /* LocalDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535157082B6A95100040E539 /* LocalDictionary.swift */; };
 		5351570B2B6A952A0040E539 /* en.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5351570A2B6A952A0040E539 /* en.txt */; };
@@ -52,17 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5304D70F2B6AE9B2002BD217 /* 4_letter_common.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 4_letter_common.txt; sourceTree = "<group>"; };
 		5304D7152B6BD1FB002BD217 /* 4_letter_words.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 4_letter_words.txt; sourceTree = "<group>"; };
-		5304D7172B6BD24D002BD217 /* word_hint.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = word_hint.csv; sourceTree = "<group>"; };
 		5304D7192B6BE2C4002BD217 /* 4_letter_word_hints_no_duplicates.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 4_letter_word_hints_no_duplicates.csv; sourceTree = "<group>"; };
-		5304D71B2B6C103F002BD217 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
-		5304D71D2B6C10B2002BD217 /* star_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_small.png; sourceTree = "<group>"; };
-		5304D71F2B6C11C7002BD217 /* A_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = A_small.png; sourceTree = "<group>"; };
-		5304D7212B6C1329002BD217 /* M_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = M_small.png; sourceTree = "<group>"; };
-		5304D7222B6C132A002BD217 /* E_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = E_small.png; sourceTree = "<group>"; };
-		5304D7232B6C132A002BD217 /* J_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = J_small.png; sourceTree = "<group>"; };
-		5304D7272B6C2DE5002BD217 /* 4_letter_words copy.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "4_letter_words copy.txt"; sourceTree = "<group>"; };
 		5304D7292B6D0456002BD217 /* HintTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintTimer.swift; sourceTree = "<group>"; };
 		5304D72B2B6D1A8F002BD217 /* SegmentedProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedProgress.swift; sourceTree = "<group>"; };
 		535156D52B6A65A20040E539 /* WordGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WordGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,8 +55,6 @@
 		535156EF2B6A65A30040E539 /* WordGameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WordGameUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		535156F32B6A65A30040E539 /* WordGameUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGameUITests.swift; sourceTree = "<group>"; };
 		535156F52B6A65A30040E539 /* WordGameUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGameUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		535157022B6A6E4E0040E539 /* LetterScroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterScroller.swift; sourceTree = "<group>"; };
-		535157042B6A7B4B0040E539 /* ScrolSnap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrolSnap.swift; sourceTree = "<group>"; };
 		535157062B6A811F0040E539 /* Wheel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wheel.swift; sourceTree = "<group>"; };
 		535157082B6A95100040E539 /* LocalDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDictionary.swift; sourceTree = "<group>"; };
 		5351570A2B6A952A0040E539 /* en.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = en.txt; sourceTree = "<group>"; };
@@ -131,25 +109,14 @@
 			isa = PBXGroup;
 			children = (
 				535156D82B6A65A20040E539 /* WordGameApp.swift */,
-				535157022B6A6E4E0040E539 /* LetterScroller.swift */,
 				535156DA2B6A65A20040E539 /* ContentView.swift */,
 				5304D72B2B6D1A8F002BD217 /* SegmentedProgress.swift */,
 				535157082B6A95100040E539 /* LocalDictionary.swift */,
-				535157042B6A7B4B0040E539 /* ScrolSnap.swift */,
-				5304D7172B6BD24D002BD217 /* word_hint.csv */,
 				5304D7292B6D0456002BD217 /* HintTimer.swift */,
 				5304D7192B6BE2C4002BD217 /* 4_letter_word_hints_no_duplicates.csv */,
 				5304D7152B6BD1FB002BD217 /* 4_letter_words.txt */,
-				5304D7272B6C2DE5002BD217 /* 4_letter_words copy.txt */,
-				5304D70F2B6AE9B2002BD217 /* 4_letter_common.txt */,
 				535157062B6A811F0040E539 /* Wheel.swift */,
 				535156DC2B6A65A30040E539 /* Assets.xcassets */,
-				5304D7222B6C132A002BD217 /* E_small.png */,
-				5304D7232B6C132A002BD217 /* J_small.png */,
-				5304D7212B6C1329002BD217 /* M_small.png */,
-				5304D71F2B6C11C7002BD217 /* A_small.png */,
-				5304D71D2B6C10B2002BD217 /* star_small.png */,
-				5304D71B2B6C103F002BD217 /* star.png */,
 				5351570A2B6A952A0040E539 /* en.txt */,
 				535156DE2B6A65A30040E539 /* Preview Content */,
 			);
@@ -285,20 +252,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5304D7102B6AE9B2002BD217 /* 4_letter_common.txt in Resources */,
-				5304D7182B6BD24D002BD217 /* word_hint.csv in Resources */,
 				5304D71A2B6BE2C4002BD217 /* 4_letter_word_hints_no_duplicates.csv in Resources */,
 				5351570B2B6A952A0040E539 /* en.txt in Resources */,
 				535156E02B6A65A30040E539 /* Preview Assets.xcassets in Resources */,
-				5304D7242B6C132A002BD217 /* M_small.png in Resources */,
-				5304D71C2B6C103F002BD217 /* star.png in Resources */,
-				5304D7282B6C2DE5002BD217 /* 4_letter_words copy.txt in Resources */,
-				5304D7252B6C132A002BD217 /* E_small.png in Resources */,
-				5304D71E2B6C10B2002BD217 /* star_small.png in Resources */,
-				5304D7202B6C11C7002BD217 /* A_small.png in Resources */,
 				535156DD2B6A65A30040E539 /* Assets.xcassets in Resources */,
 				5304D7162B6BD1FB002BD217 /* 4_letter_words.txt in Resources */,
-				5304D7262B6C132A002BD217 /* J_small.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,12 +282,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				535156DB2B6A65A20040E539 /* ContentView.swift in Sources */,
-				535157032B6A6E4E0040E539 /* LetterScroller.swift in Sources */,
 				5304D72A2B6D0456002BD217 /* HintTimer.swift in Sources */,
 				5304D72C2B6D1A8F002BD217 /* SegmentedProgress.swift in Sources */,
 				535156D92B6A65A20040E539 /* WordGameApp.swift in Sources */,
 				535157072B6A811F0040E539 /* Wheel.swift in Sources */,
-				535157052B6A7B4B0040E539 /* ScrolSnap.swift in Sources */,
 				535157092B6A95100040E539 /* LocalDictionary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

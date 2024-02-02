@@ -7,41 +7,54 @@
 
 import Foundation
 
+let GAME_LENGTH = 7
+let HINT_SECONDS = 3
+
 struct Word {
     var word: String
     var hint: String
 }
 
-
-
 class LocalDictionary {
     static let shared = LocalDictionary()
     private var words = [Word]()
+    private var solvedWords = [String]()
+    var questionIndex = 0
+    
+    var letter1: String = ""
+    var letter2: String = ""
+    var letter3: String = ""
+    var letter4: String = ""
+    
+    var hint1: String? = nil
+    var hint2: String? = nil
+    var hint3: String? = nil
+    var hint4: String? = nil
+    
+    var hintState: Int = 0
+    
+    var hintButtonActive = false
+    
+    var hintCountDownTimer: Timer?
+    var hintCountDown = 0
+    
+    var hintProgress: Double {
+        Double(hintCountDown) / Double(HINT_SECONDS)
+    }
+    
+    var gameProgress: Double {
+        Double(solvedWords.count) / Double(gameWords.count)
+    }
+
+    var wheelLetters = [[String](),[String](),[String](),[String]()]
+    
     var gameWords = [Word]()
-    private let englishWords: Set<String>
-    private let commonWords: Set<String>
-
-
+    
     init() {
-        // Load the local dictionary file into a Set
-        if let path = Bundle.main.path(forResource: "4_letter_words", ofType: "txt"),
-           let words = try? String(contentsOfFile: path) {
-            englishWords = Set(words.lowercased().components(separatedBy: .newlines))
-        } else {
-            englishWords = Set()
-        }
-        
-        if let path = Bundle.main.path(forResource: "4_letter_common", ofType: "txt"),
-           let words = try? String(contentsOfFile: path) {
-            commonWords = Set(words.lowercased().components(separatedBy: .newlines))
-        } else {
-            commonWords = Set()
-        }
-        
         if let fileURL = Bundle.main.url(forResource: "4_letter_word_hints_no_duplicates", withExtension: "csv"),
            let content = try? String(contentsOf: fileURL) {
             let lines = content.components(separatedBy: "\n")
-
+            
             for line in lines {
                 let components = line.components(separatedBy: ",")
                 if components.count == 2 {
@@ -52,36 +65,21 @@ class LocalDictionary {
             }
         }
         
-        for _ in 0...4{
-            gameWords.append(drawWordHints())
-        }
+        reset()
     }
     
     func drawWordHints() -> Word {
         guard let selectedWord = words.randomElement() else {
             return Word(word:"cats", hint: "Felines")
         }
-
+        
         // Remove the selected word from the array to avoid duplicates
         if let index = words.firstIndex(where: { $0.word == selectedWord.word }) {
             words.remove(at: index)
         }
-
+        
         return selectedWord
     }
-
-    func isWordInEnglishDictionary(word: String) -> Bool {
-        return englishWords.contains(word.lowercased())
-    }
-    
-    func drawRandom4LetterWord() -> String? {
-        return englishWords.randomElement()?.capitalized
-    }
-    
-    func drawRandomCommon4LetterWord() -> String? {
-        return commonWords.randomElement()?.capitalized
-    }
-        
     
     func generateLetters() -> [[String]] {
         var res = [[String](),[String](),[String](),[String]()]
@@ -96,7 +94,7 @@ class LocalDictionary {
             }
             count = 0
         }
-  
+        
         for index in res.indices {
             res[index].shuffle()
             while res[index].count < 4 {
@@ -109,9 +107,91 @@ class LocalDictionary {
                 }
             }
         }
-
         return res
+    }
+    
+    func generateHint(){
+        switch hintState {
+            case 0:
+                hint1 = ("\(gameWords[questionIndex].word[0])".capitalized)
+            case 1:
+                hint2 = ("\(gameWords[questionIndex].word[1])".capitalized)
+            case 2:
+                hint3 = ("\(gameWords[questionIndex].word[2])".capitalized)
+            case 3:
+                hint4 = ("\(gameWords[questionIndex].word[3])".capitalized)
+            default:
+                print("")
+            }
+            hintState += 1
         
+        startHintCount()
+    }
+    
+    func resetHints(){
+        hintState = 0
+        hint1 = nil
+        hint2 = nil
+        hint3 = nil
+        hint4 = nil
+    }
+    
+    func reset(){
+        gameWords = [Word]()
+        
+        for _ in 0..<GAME_LENGTH{
+            gameWords.append(drawWordHints())
+        }
+        
+        wheelLetters = generateLetters()
+        letter1 = wheelLetters[0][0]
+        letter2 = wheelLetters[1][0]
+        letter3 = wheelLetters[2][0]
+        letter4 = wheelLetters[3][0]
+        
+        resetHints()
+        
+        questionIndex = 0
+        solvedWords = [String]()
+        startHintCount()        
+    }
+    
+    func submitWord() -> Bool{
+        let combined = letter1 + letter2 + letter3 + letter4
+        
+        if gameWords[questionIndex].word.uppercased() == combined {
+            solvedWords.append(combined)
+            resetHints()
+            if(questionIndex < gameWords.count - 1){
+                questionIndex += 1
+            }else{
+                //                    End Game?
+            }
+            return true
+        }
+        return false
+    }
+    
+    func startHintCount() {
+        hintCountDownTimer?.invalidate()
+        
+        hintButtonActive = false
+        hintCountDown = 0
+        
+        hintCountDownTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            if self.hintCountDown < HINT_SECONDS - 1 {
+                self.hintCountDown += 1
+
+            } else {
+                self.hintCountDown += 1
+                self.hintButtonActive = true
+                timer.invalidate()
+            }
+        }
+        
+        if let timer = hintCountDownTimer {
+            RunLoop.main.add(timer, forMode: .common)
+        }
     }
 }
 
@@ -120,11 +200,10 @@ extension String {
         let charIndex = self.index(self.startIndex, offsetBy: index)
         return self[charIndex]
     }
-
+    
     subscript (range: Range<Int>) -> Substring {
         let startIndex = self.index(self.startIndex, offsetBy: range.startIndex)
         let stopIndex = self.index(self.startIndex, offsetBy: range.startIndex + range.count)
         return self[startIndex..<stopIndex]
     }
-
 }
