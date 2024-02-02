@@ -7,16 +7,16 @@
 
 import Foundation
 
-let GAME_LENGTH = 7
-let HINT_SECONDS = 3
+let GAME_LENGTH = 3
+let HINT_SECONDS = 12
 
 struct Word {
     var word: String
     var hint: String
 }
 
-class LocalDictionary {
-    static let shared = LocalDictionary()
+class GameViewModel {
+    static let shared = GameViewModel()
     private var words = [Word]()
     private var solvedWords = [String]()
     var questionIndex = 0
@@ -85,7 +85,6 @@ class LocalDictionary {
         var res = [[String](),[String](),[String](),[String]()]
         for word in gameWords{
             var count = 0
-            print(word.word)
             for char in word.word{
                 if(!res[count].contains("\(char)".capitalized)){
                     res[count].append("\(char)".capitalized)
