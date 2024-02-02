@@ -12,20 +12,17 @@ struct ContentView: View {
     @State private var showingAlert = false
     
     @State private var viewModel = GameViewModel()
-    
-    @StateObject private var newTimer = GameTimer()
+    @StateObject private var gameTimer = GameTimer()
     
     private func resetGame() {
-        //        viewModel = LocalDictionary()
-        //
         viewModel.reset()
-        newTimer.startTimer()
+        gameTimer.startTimer()
     }
     
     var body: some View {
         ZStack{
             VStack {
-                Text("\(newTimer.secondsElapsed, specifier: "%.1f")")
+                Text("\(gameTimer.secondsElapsed, specifier: "%.1f")")
                     .font(.system(size: 20).monospacedDigit())
                 SegmentedProgress(progress: viewModel.gameProgress)
                     .padding()
@@ -73,9 +70,9 @@ struct ContentView: View {
                         if(viewModel.submitWord()){
                             AudioServicesPlaySystemSound(1305)
                             viewModel.startHintCount()
-                            
                             if(viewModel.gameProgress >= 1.0){
                                 showingAlert = true
+                                gameTimer.stopTimer()
                             }
                         }else{
                         }
@@ -90,7 +87,7 @@ struct ContentView: View {
                 }
             }.onAppear(){
                 resetGame()
-                newTimer.startTimer()
+                gameTimer.startTimer()
             }
             .alert("WIN", isPresented: $showingAlert) {
                 Button("OK", role: .cancel) {
