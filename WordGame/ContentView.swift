@@ -8,7 +8,11 @@
 import SwiftUI
 import AVFoundation
 
+let HINT_SECONDS = 10
+
 struct ContentView: View {
+    @State private var gameTime = 0.0
+    
     @State var ending = false
     @State var waterFallOpacity = 1.0
     @State private var keyWords = [String]()
@@ -35,10 +39,11 @@ struct ContentView: View {
     
     @State private var viewModel = LocalDictionary()
     
-    @State private var countdown = 10
+    @State private var countdown = 0
     @State private var isButtonActive = false
-    private let initialCountdown = 10
+    private let initialCountdown = 0
     @State private var countdownTimer: Timer?
+    @State private var gameTimer:Timer?
     
     @State private var showGame = true
     
@@ -50,15 +55,32 @@ struct ContentView: View {
         countdown = initialCountdown
         
         countdownTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            if countdown > 0 {
-                countdown -= 1
+            if countdown < HINT_SECONDS - 1 {
+                countdown += 1
             } else {
+                countdown += 1
                 isButtonActive = true
                 timer.invalidate()
             }
         }
         
         if let timer = countdownTimer {
+            RunLoop.main.add(timer, forMode: .common)
+
+        }
+
+    }
+    
+    
+    private func startGameTimer() {
+        gameTimer?.invalidate()
+        
+        gameTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
+                gameTime += 0.1
+            }
+        
+        
+        if let timer = gameTimer {
             RunLoop.main.add(timer, forMode: .common)
 
         }
@@ -92,14 +114,16 @@ struct ContentView: View {
         ZStack{
             if(showGame){
                 VStack {
-                    Text(hint1 ?? "NONE")
-                    Text("Score \(solvedWords.count)")
-                        .font(.system(size: 30)) // You can adjust the size (e.g., 20) as per your requirement
-                        .padding(.bottom, 10)
-                    
-                    
+                    SegmentedProgress(progress: Double(solvedWords.count) / Double(viewModel.gameWords.count))
+                        .padding()
+                    HStack{
+                        Text("\(gameTime, specifier: "%.1f")")
+                            .font(.system(size: 20).monospacedDigit())
+                    }
+        
                     Text(viewModel.gameWords[state].hint)
                         .font(.system(size: 25))
+                        .frame(height: 120)
                         .padding()
                     
                     
@@ -128,7 +152,6 @@ struct ContentView: View {
                     }.frame(maxHeight: .infinity)
                         .padding(.top,50)
                     
-
                     HStack{
                         Button(action: {
                             if isButtonActive {
@@ -149,13 +172,15 @@ struct ContentView: View {
                                 
                             }
                         }) {
-                            HintTimer(progress: 1 - (Double(countdown) / 10.0))
+                            HintTimer(progress: (Double(countdown) / Double(HINT_SECONDS)))
                         }
                         .disabled(!isButtonActive)
                         .padding()
                         Button{
                             let combined = letter1 + letter2 + letter3 + letter4
-                            if LocalDictionary.shared.isWordInEnglishDictionary(word: combined) {
+                            if
+                                viewModel.gameWords[state].word.uppercased() == combined
+                            {
                                 if(!solvedWords.contains(combined)){
                                     solvedWords.append(combined)
                                     AudioServicesPlaySystemSound(1305)
@@ -202,6 +227,8 @@ struct ContentView: View {
                     
                     letter4 = wheelLetters[3][0]
                     startCountdown()
+                    startGameTimer()
+
                     
                 }
                 .alert("WIN", isPresented: $showingAlert) {

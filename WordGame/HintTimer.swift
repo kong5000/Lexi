@@ -27,7 +27,7 @@ struct HintTimer: View {
                     )
                 )
             Circle()
-                .fill( progress <= 0.99 ?  Color.black.opacity(0.33) : Color.black)
+                .fill( progress < 1.0 ?  Color.black.opacity(0.33) : Color.black)
                 .frame(width: 70)
                 .rotationEffect(.degrees(-90))
                 .animation(.easeOut, value: progress)

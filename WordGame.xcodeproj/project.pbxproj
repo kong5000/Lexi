@@ -19,6 +19,7 @@
 		5304D7262B6C132A002BD217 /* J_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 5304D7232B6C132A002BD217 /* J_small.png */; };
 		5304D7282B6C2DE5002BD217 /* 4_letter_words copy.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5304D7272B6C2DE5002BD217 /* 4_letter_words copy.txt */; };
 		5304D72A2B6D0456002BD217 /* HintTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D7292B6D0456002BD217 /* HintTimer.swift */; };
+		5304D72C2B6D1A8F002BD217 /* SegmentedProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D72B2B6D1A8F002BD217 /* SegmentedProgress.swift */; };
 		535156D92B6A65A20040E539 /* WordGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535156D82B6A65A20040E539 /* WordGameApp.swift */; };
 		535156DB2B6A65A20040E539 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535156DA2B6A65A20040E539 /* ContentView.swift */; };
 		535156DD2B6A65A30040E539 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 535156DC2B6A65A30040E539 /* Assets.xcassets */; };
@@ -63,6 +64,7 @@
 		5304D7232B6C132A002BD217 /* J_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = J_small.png; sourceTree = "<group>"; };
 		5304D7272B6C2DE5002BD217 /* 4_letter_words copy.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "4_letter_words copy.txt"; sourceTree = "<group>"; };
 		5304D7292B6D0456002BD217 /* HintTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintTimer.swift; sourceTree = "<group>"; };
+		5304D72B2B6D1A8F002BD217 /* SegmentedProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedProgress.swift; sourceTree = "<group>"; };
 		535156D52B6A65A20040E539 /* WordGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WordGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		535156D82B6A65A20040E539 /* WordGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGameApp.swift; sourceTree = "<group>"; };
 		535156DA2B6A65A20040E539 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				535156D82B6A65A20040E539 /* WordGameApp.swift */,
 				535157022B6A6E4E0040E539 /* LetterScroller.swift */,
 				535156DA2B6A65A20040E539 /* ContentView.swift */,
+				5304D72B2B6D1A8F002BD217 /* SegmentedProgress.swift */,
 				535157082B6A95100040E539 /* LocalDictionary.swift */,
 				535157042B6A7B4B0040E539 /* ScrolSnap.swift */,
 				5304D7172B6BD24D002BD217 /* word_hint.csv */,
@@ -323,6 +326,7 @@
 				535156DB2B6A65A20040E539 /* ContentView.swift in Sources */,
 				535157032B6A6E4E0040E539 /* LetterScroller.swift in Sources */,
 				5304D72A2B6D0456002BD217 /* HintTimer.swift in Sources */,
+				5304D72C2B6D1A8F002BD217 /* SegmentedProgress.swift in Sources */,
 				535156D92B6A65A20040E539 /* WordGameApp.swift in Sources */,
 				535157072B6A811F0040E539 /* Wheel.swift in Sources */,
 				535157052B6A7B4B0040E539 /* ScrolSnap.swift in Sources */,
