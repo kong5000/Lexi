@@ -9,47 +9,26 @@ import SwiftUI
 import AVFoundation
 
 struct ContentView: View {
-    @State private var gameTime = 0.0
-    
     @State private var showingAlert = false
     
     @State private var viewModel = GameViewModel()
     
-    @State private var gameTimer:Timer?
-    
-    
-    
-    private func startGameTimer() {
-        gameTimer?.invalidate()
-        gameTime = 0.0
-        
-        gameTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
-            gameTime += 0.1
-        }
-        
-        if let timer = gameTimer {
-            RunLoop.main.add(timer, forMode: .common)
-        }
-    }
+    @StateObject private var newTimer = GameTimer()
     
     private func resetGame() {
         //        viewModel = LocalDictionary()
         //
         viewModel.reset()
-        
-        startGameTimer()
+        newTimer.startTimer()
     }
     
     var body: some View {
         ZStack{
             VStack {
+                Text("\(newTimer.secondsElapsed, specifier: "%.1f")")
+                    .font(.system(size: 20).monospacedDigit())
                 SegmentedProgress(progress: viewModel.gameProgress)
                     .padding()
-                HStack{
-                    Text("\(gameTime, specifier: "%.1f")")
-                        .font(.system(size: 20).monospacedDigit())
-                }
-                
                 Text(viewModel.gameWords[viewModel.questionIndex].hint)
                     .font(.system(size: 25))
                     .frame(height: 120)
@@ -111,6 +90,7 @@ struct ContentView: View {
                 }
             }.onAppear(){
                 resetGame()
+                newTimer.startTimer()
             }
             .alert("WIN", isPresented: $showingAlert) {
                 Button("OK", role: .cancel) {
