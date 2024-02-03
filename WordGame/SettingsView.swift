@@ -14,11 +14,7 @@ struct SettingsView: View {
         VStack {
             Toggle("Dark Mode", isOn: $isDarkMode)
                 .padding()
-
-            Text("Hello, World!")
-                .foregroundColor(isDarkMode ? .white : .black)
-                .padding()
-        }
+                        }
         .preferredColorScheme(isDarkMode ? .dark : .light)
     }
 }

@@ -25,7 +25,14 @@ struct ContentView: View {
                     ){
                         CircleButton(text: "PLAY")
                         }.padding(.bottom, 70)
-                    CircleButton(text: "OFF-LINE")
+                    
+                    
+                    NavigationLink(destination: GameView()
+                        .navigationBarBackButtonHidden(true)
+                        .navigationBarItems(leading: CustomBackButton())
+                    ){
+                        CircleButton(text: "OFF-LINE")
+                        }.padding(.bottom, 70)
                         .padding(/*@START_MENU_TOKEN@*/EdgeInsets()/*@END_MENU_TOKEN@*/)
                     HStack{
                         Spacer()

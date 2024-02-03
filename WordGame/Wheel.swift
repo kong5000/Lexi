@@ -33,6 +33,8 @@ struct Wheel: View {
                 }
             }
         }
+        .padding()
+        .frame(maxWidth: 100)
     }
 }
 

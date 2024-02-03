@@ -39,22 +39,22 @@ struct GameView: View {
                 HStack(alignment: .top){
                     VStack{
                         Wheel(selectedLetter: $viewModel.letter1, letters: viewModel.wheelLetters[0], hint: $viewModel.hint1                                      )
-                            .padding()
+//                            .padding()
                         Spacer()
                     }
                     VStack{
                         Wheel(selectedLetter: $viewModel.letter2, letters: viewModel.wheelLetters[1], hint: $viewModel.hint2)
-                            .padding()
+//                            .padding()
                         Spacer()
                     }
                     VStack{
                         Wheel(selectedLetter: $viewModel.letter3, letters: viewModel.wheelLetters[2], hint: $viewModel.hint3)
-                            .padding()
+//                            .padding()
                         Spacer()
                     }
                     VStack{
                         Wheel(selectedLetter: $viewModel.letter4, letters: viewModel.wheelLetters[3], hint: $viewModel.hint4)
-                            .padding()
+//                            .padding()
                         Spacer()
                     }
                 }
@@ -62,6 +62,7 @@ struct GameView: View {
                 .padding(.top,50)
                 
                 HStack{
+Spacer()
                     Button(action: {
                         if viewModel.hintButtonActive {
                             viewModel.generateHint()
@@ -73,6 +74,7 @@ struct GameView: View {
                     }
                     .disabled(!viewModel.hintButtonActive)
                     .padding()
+                    Spacer()
                     Button{
                         AudioServicesPlaySystemSound(1306)
 
@@ -93,7 +95,10 @@ struct GameView: View {
                             .font(.system(size: 22))
                             .clipShape(Capsule())
                     }.padding()
+                    Spacer()
                 }
+                .additionalPaddingForiPad()
+
             }.onAppear(){
                 resetGame()
                 gameTimer.startTimer()
@@ -106,6 +111,22 @@ struct GameView: View {
         }
     }
 }
+
+extension View {
+    func additionalPaddingForiPad() -> some View {
+        #if os(iOS)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            return AnyView(self.padding(.bottom, 50))
+        } else {
+            return AnyView(self)
+        }
+        #else
+        return AnyView(self)
+        #endif
+    }
+}
+
+
 
 #Preview {
     GameView()
