@@ -14,7 +14,7 @@ struct GameView: View {
     @State private var viewModel = GameViewModel()
     @StateObject private var gameTimer = GameTimer()
     @StateObject private var themeManager = ThemeManager()
-
+    
     private func resetGame() {
         viewModel.reset()
         gameTimer.startTimer()
@@ -23,7 +23,7 @@ struct GameView: View {
     var body: some View {
         ZStack{
             themeManager.accentColor.ignoresSafeArea()
-
+            
             VStack {
                 Text("\(gameTimer.secondsElapsed, specifier: "%.1f")")
                     .font(.system(size: 25).monospacedDigit())
@@ -39,35 +39,32 @@ struct GameView: View {
                 HStack(alignment: .top){
                     VStack{
                         Wheel(selectedLetter: $viewModel.letter1, letters: viewModel.wheelLetters[0], hint: $viewModel.hint1                                      )
-//                            .padding()
                         Spacer()
                     }
                     VStack{
                         Wheel(selectedLetter: $viewModel.letter2, letters: viewModel.wheelLetters[1], hint: $viewModel.hint2)
-//                            .padding()
                         Spacer()
                     }
                     VStack{
                         Wheel(selectedLetter: $viewModel.letter3, letters: viewModel.wheelLetters[2], hint: $viewModel.hint3)
-//                            .padding()
                         Spacer()
                     }
                     VStack{
                         Wheel(selectedLetter: $viewModel.letter4, letters: viewModel.wheelLetters[3], hint: $viewModel.hint4)
-//                            .padding()
                         Spacer()
                     }
                 }
                 .frame(maxHeight: .infinity)
                 .padding(.top,50)
+                .padding(.bottom, 50)
                 
                 HStack{
-Spacer()
+                    Spacer()
                     Button(action: {
                         if viewModel.hintButtonActive {
                             viewModel.generateHint()
                             AudioServicesPlaySystemSound(1114    )
-
+                            
                         }
                     }) {
                         HintTimer(progress: viewModel.hintProgress)
@@ -77,7 +74,7 @@ Spacer()
                     Spacer()
                     Button{
                         AudioServicesPlaySystemSound(1306)
-
+                        
                         if(viewModel.submitWord()){
                             AudioServicesPlaySystemSound(1305)
                             viewModel.startHintCount()
@@ -98,7 +95,7 @@ Spacer()
                     Spacer()
                 }
                 .additionalPaddingForiPad()
-
+                
             }.onAppear(){
                 resetGame()
                 gameTimer.startTimer()
@@ -114,15 +111,15 @@ Spacer()
 
 extension View {
     func additionalPaddingForiPad() -> some View {
-        #if os(iOS)
+#if os(iOS)
         if UIDevice.current.userInterfaceIdiom == .pad {
             return AnyView(self.padding(.bottom, 50))
         } else {
             return AnyView(self)
         }
-        #else
+#else
         return AnyView(self)
-        #endif
+#endif
     }
 }
 

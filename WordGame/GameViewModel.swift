@@ -7,7 +7,7 @@
 
 import Foundation
 
-let GAME_LENGTH = 3
+let GAME_LENGTH = 7
 let HINT_SECONDS = 10
 
 struct Word {
@@ -56,7 +56,7 @@ class GameViewModel {
             let lines = content.components(separatedBy: "\n")
             
             for line in lines {
-                let components = line.components(separatedBy: ",")
+                let components = line.components(separatedBy: "/")
                 if components.count == 2 {
                     let word = components[0].trimmingCharacters(in: .whitespacesAndNewlines)
                     let hint = components[1].trimmingCharacters(in: .whitespacesAndNewlines)
