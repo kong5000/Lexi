@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 class ThemeManager: ObservableObject {
-    @AppStorage("isDarkMode") private var isDarkMode = false
+    @AppStorage("isDarkMode") private var isDarkMode = true
     
     var themeColor: Color {
         isDarkMode ? Color.white : Color.black
