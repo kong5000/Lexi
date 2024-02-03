@@ -12,8 +12,14 @@
 		5304D72A2B6D0456002BD217 /* HintTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D7292B6D0456002BD217 /* HintTimer.swift */; };
 		5304D72C2B6D1A8F002BD217 /* SegmentedProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D72B2B6D1A8F002BD217 /* SegmentedProgress.swift */; };
 		5304D72E2B6D7A80002BD217 /* GameTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D72D2B6D7A80002BD217 /* GameTimer.swift */; };
+		5304D7302B6D8404002BD217 /* CircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D72F2B6D8404002BD217 /* CircleButton.swift */; };
+		5304D7322B6D84A8002BD217 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D7312B6D84A8002BD217 /* ContentView.swift */; };
+		5304D7342B6D86C0002BD217 /* SettingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D7332B6D86C0002BD217 /* SettingButton.swift */; };
+		5304D7362B6E6E4E002BD217 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D7352B6E6E4E002BD217 /* SettingsView.swift */; };
+		5304D7382B6EA698002BD217 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D7372B6EA698002BD217 /* ThemeManager.swift */; };
+		5304D73A2B6EB289002BD217 /* CustomBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D7392B6EB289002BD217 /* CustomBackButton.swift */; };
 		535156D92B6A65A20040E539 /* WordGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535156D82B6A65A20040E539 /* WordGameApp.swift */; };
-		535156DB2B6A65A20040E539 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535156DA2B6A65A20040E539 /* ContentView.swift */; };
+		535156DB2B6A65A20040E539 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535156DA2B6A65A20040E539 /* GameView.swift */; };
 		535156DD2B6A65A30040E539 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 535156DC2B6A65A30040E539 /* Assets.xcassets */; };
 		535156E02B6A65A30040E539 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 535156DF2B6A65A30040E539 /* Preview Assets.xcassets */; };
 		535156EA2B6A65A30040E539 /* WordGameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535156E92B6A65A30040E539 /* WordGameTests.swift */; };
@@ -47,9 +53,15 @@
 		5304D7292B6D0456002BD217 /* HintTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintTimer.swift; sourceTree = "<group>"; };
 		5304D72B2B6D1A8F002BD217 /* SegmentedProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedProgress.swift; sourceTree = "<group>"; };
 		5304D72D2B6D7A80002BD217 /* GameTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTimer.swift; sourceTree = "<group>"; };
+		5304D72F2B6D8404002BD217 /* CircleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleButton.swift; sourceTree = "<group>"; };
+		5304D7312B6D84A8002BD217 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		5304D7332B6D86C0002BD217 /* SettingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingButton.swift; sourceTree = "<group>"; };
+		5304D7352B6E6E4E002BD217 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		5304D7372B6EA698002BD217 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
+		5304D7392B6EB289002BD217 /* CustomBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBackButton.swift; sourceTree = "<group>"; };
 		535156D52B6A65A20040E539 /* WordGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WordGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		535156D82B6A65A20040E539 /* WordGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGameApp.swift; sourceTree = "<group>"; };
-		535156DA2B6A65A20040E539 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		535156DA2B6A65A20040E539 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		535156DC2B6A65A30040E539 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		535156DF2B6A65A30040E539 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		535156E52B6A65A30040E539 /* WordGameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WordGameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,14 +123,20 @@
 			isa = PBXGroup;
 			children = (
 				535156D82B6A65A20040E539 /* WordGameApp.swift */,
+				5304D7312B6D84A8002BD217 /* ContentView.swift */,
+				5304D7392B6EB289002BD217 /* CustomBackButton.swift */,
+				5304D7352B6E6E4E002BD217 /* SettingsView.swift */,
+				5304D7372B6EA698002BD217 /* ThemeManager.swift */,
 				5304D72D2B6D7A80002BD217 /* GameTimer.swift */,
-				535156DA2B6A65A20040E539 /* ContentView.swift */,
+				535156DA2B6A65A20040E539 /* GameView.swift */,
 				5304D72B2B6D1A8F002BD217 /* SegmentedProgress.swift */,
 				535157082B6A95100040E539 /* GameViewModel.swift */,
 				5304D7292B6D0456002BD217 /* HintTimer.swift */,
+				5304D72F2B6D8404002BD217 /* CircleButton.swift */,
+				5304D7332B6D86C0002BD217 /* SettingButton.swift */,
+				535157062B6A811F0040E539 /* Wheel.swift */,
 				5304D7192B6BE2C4002BD217 /* 4_letter_word_hints_no_duplicates.csv */,
 				5304D7152B6BD1FB002BD217 /* 4_letter_words.txt */,
-				535157062B6A811F0040E539 /* Wheel.swift */,
 				535156DC2B6A65A30040E539 /* Assets.xcassets */,
 				5351570A2B6A952A0040E539 /* en.txt */,
 				535156DE2B6A65A30040E539 /* Preview Content */,
@@ -284,13 +302,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				535156DB2B6A65A20040E539 /* ContentView.swift in Sources */,
+				535156DB2B6A65A20040E539 /* GameView.swift in Sources */,
 				5304D72A2B6D0456002BD217 /* HintTimer.swift in Sources */,
+				5304D7362B6E6E4E002BD217 /* SettingsView.swift in Sources */,
 				5304D72C2B6D1A8F002BD217 /* SegmentedProgress.swift in Sources */,
+				5304D7302B6D8404002BD217 /* CircleButton.swift in Sources */,
 				5304D72E2B6D7A80002BD217 /* GameTimer.swift in Sources */,
+				5304D7322B6D84A8002BD217 /* ContentView.swift in Sources */,
 				535156D92B6A65A20040E539 /* WordGameApp.swift in Sources */,
 				535157072B6A811F0040E539 /* Wheel.swift in Sources */,
+				5304D7342B6D86C0002BD217 /* SettingButton.swift in Sources */,
 				535157092B6A95100040E539 /* GameViewModel.swift in Sources */,
+				5304D73A2B6EB289002BD217 /* CustomBackButton.swift in Sources */,
+				5304D7382B6EA698002BD217 /* ThemeManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -2,99 +2,51 @@
 //  ContentView.swift
 //  WordGame
 //
-//  Created by k on 2024-01-31.
+//  Created by k on 2024-02-02.
 //
 
 import SwiftUI
-import AVFoundation
 
 struct ContentView: View {
-    @State private var showingAlert = false
-    
-    @State private var viewModel = GameViewModel()
-    @StateObject private var gameTimer = GameTimer()
-    
-    private func resetGame() {
-        viewModel.reset()
-        gameTimer.startTimer()
-    }
-    
+    @StateObject private var themeManager = ThemeManager()
+
     var body: some View {
-        ZStack{
-            VStack {
-                Text("\(gameTimer.secondsElapsed, specifier: "%.1f")")
-                    .font(.system(size: 20).monospacedDigit())
-                SegmentedProgress(progress: viewModel.gameProgress)
-                    .padding()
-                Text(viewModel.gameWords[viewModel.questionIndex].hint)
-                    .font(.system(size: 25))
-                    .frame(height: 120)
-                    .padding()
-                
-                HStack(alignment: .top){
-                    VStack{
-                        Wheel(selectedLetter: $viewModel.letter1, letters: viewModel.wheelLetters[0], hint: $viewModel.hint1                                      )
-                            .padding()
+        NavigationStack{
+            ZStack{
+                themeManager.accentColor.ignoresSafeArea()
+                VStack{
+                    Text("L E X I")
+                        .font(.system(size: 90))
+                        .foregroundColor(themeManager.themeColor)
+                        .padding(.bottom, 70)
+                    NavigationLink(destination: GameView()
+                        .navigationBarBackButtonHidden(true) 
+                        .navigationBarItems(leading: CustomBackButton())
+                    ){
+                        CircleButton(text: "PLAY")
+                        }.padding(.bottom, 70)
+                    CircleButton(text: "OFF-LINE")
+                        .padding(/*@START_MENU_TOKEN@*/EdgeInsets()/*@END_MENU_TOKEN@*/)
+                    HStack{
                         Spacer()
-                    }
-                    VStack{
-                        Wheel(selectedLetter: $viewModel.letter2, letters: viewModel.wheelLetters[1], hint: $viewModel.hint2)
-                            .padding()
-                        Spacer()
-                    }
-                    VStack{
-                        Wheel(selectedLetter: $viewModel.letter3, letters: viewModel.wheelLetters[2], hint: $viewModel.hint3)
-                            .padding()
-                        Spacer()
-                    }
-                    VStack{
-                        Wheel(selectedLetter: $viewModel.letter4, letters: viewModel.wheelLetters[3], hint: $viewModel.hint4)
-                            .padding()
-                        Spacer()
-                    }
-                }
-                .frame(maxHeight: .infinity)
-                .padding(.top,50)
-                
-                HStack{
-                    Button(action: {
-                        if viewModel.hintButtonActive {
-                            viewModel.generateHint()
-                        }
-                    }) {
-                        HintTimer(progress: viewModel.hintProgress)
-                    }
-                    .disabled(!viewModel.hintButtonActive)
-                    .padding()
-                    Button{
-                        if(viewModel.submitWord()){
-                            AudioServicesPlaySystemSound(1305)
-                            viewModel.startHintCount()
-                            if(viewModel.gameProgress >= 1.0){
-                                showingAlert = true
-                                gameTimer.stopTimer()
+                        NavigationLink(destination: SettingsView()
+                            .navigationBarBackButtonHidden(true)
+                            .navigationBarItems(leading: CustomBackButton())
+                            ){
+                                SettingButton()
                             }
-                        }else{
-                        }
-                    }label:{
-                        Text("SUBMIT")
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(.black)
-                            .font(.title)
-                            .clipShape(Capsule())
-                    }.padding()
-                }
-            }.onAppear(){
-                resetGame()
-                gameTimer.startTimer()
-            }
-            .alert("WIN", isPresented: $showingAlert) {
-                Button("OK", role: .cancel) {
-                    resetGame()
+                        
+                        Spacer()
+                        Image(systemName: "info.circle")
+                            .font(.system(size: 80))
+                            .foregroundColor(themeManager.themeColor)
+                        Spacer()
+                    }
                 }
             }
         }
+        
+        .accentColor(themeManager.themeColor)
     }
 }
 

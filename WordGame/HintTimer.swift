@@ -9,33 +9,34 @@ import SwiftUI
 
 struct HintTimer: View {
     var progress: Double
-    
+    @StateObject private var themeManager = ThemeManager()
+
     var body: some View {
         ZStack {
             Circle()
                 .stroke(
-                    Color.black.opacity(0.33),
+                    themeManager.themeColor.opacity(0.33),
                     lineWidth: 10
                 )
             Circle()
                 .trim(from: 0, to: progress)
                 .stroke(
-                    Color.black,
+                    themeManager.themeColor,
                     style: StrokeStyle(
                         lineWidth: 10,
                         lineCap: .round
                     )
                 )
             Circle()
-                .fill( progress < 1.0 ?  Color.black.opacity(0.33) : Color.black)
+                .fill( progress < 1.0 ?  themeManager.themeColor.opacity(0.33) : themeManager.themeColor)
                 .frame(width: 70)
                 .rotationEffect(.degrees(-90))
                 .animation(.easeOut, value: progress)
             
             Text("HINT")
-                .font(.headline)
+                .font(.system(size: 22))
                 .frame(width: 50, height: 50)
-                .foregroundColor(.white)
+                .foregroundColor(themeManager.accentColor)
                 .animation(.easeOut, value: progress)
         }.frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/)
             .animation(.easeIn, value: progress)

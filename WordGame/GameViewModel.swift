@@ -8,7 +8,7 @@
 import Foundation
 
 let GAME_LENGTH = 3
-let HINT_SECONDS = 12
+let HINT_SECONDS = 10
 
 struct Word {
     var word: String

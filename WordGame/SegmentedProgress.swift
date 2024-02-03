@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct SegmentedProgress: View {
+    @StateObject private var themeManager = ThemeManager()
+
     var progress = 0.0
     var body: some View {
         VStack {
             ProgressView(value: progress)
-                .tint(.black)
+                .tint(themeManager.themeColor)
         }
     }
     
