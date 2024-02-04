@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var themeManager = ThemeManager()
+    @AppStorage("lastLogin") private var lastLogin = "Jan 01"
 
     var body: some View {
         NavigationStack{
@@ -26,14 +27,6 @@ struct ContentView: View {
                         CircleButton(text: "PLAY")
                         }.padding(.bottom, 70)
                     
-                    
-                    NavigationLink(destination: GameView()
-                        .navigationBarBackButtonHidden(true)
-                        .navigationBarItems(leading: CustomBackButton())
-                    ){
-                        CircleButton(text: "OFF-LINE")
-                        }.padding(.bottom, 70)
-                        .padding(/*@START_MENU_TOKEN@*/EdgeInsets()/*@END_MENU_TOKEN@*/)
                     HStack{
                         Spacer()
                         NavigationLink(destination: SettingsView()
@@ -52,7 +45,11 @@ struct ContentView: View {
                 }
             }
         }
-        
+        .onAppear(){
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "MMM d"
+                lastLogin = dateFormatter.string(from: Date())
+        }
         .accentColor(themeManager.themeColor)
     }
 }
