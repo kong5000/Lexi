@@ -10,16 +10,21 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var themeManager = ThemeManager()
     @AppStorage("lastLogin") private var lastLogin = "Jan 01"
+    @AppStorage("isDarkMode") private var isDarkMode = true
+
 
     var body: some View {
         NavigationStack{
             ZStack{
                 themeManager.accentColor.ignoresSafeArea()
                 VStack{
+                    Spacer()
                     Text("L E X I")
                         .font(.system(size: 90))
                         .foregroundColor(themeManager.themeColor)
                         .padding(.bottom, 70)
+                    Spacer()
+
                     NavigationLink(destination: GameView()
                         .navigationBarBackButtonHidden(true) 
                         .navigationBarItems(leading: CustomBackButton())
@@ -29,19 +34,21 @@ struct ContentView: View {
                     
                     HStack{
                         Spacer()
-                        NavigationLink(destination: SettingsView()
-                            .navigationBarBackButtonHidden(true)
-                            .navigationBarItems(leading: CustomBackButton())
-                            ){
-                                SettingButton()
-                            }
-                        
+                        Button{
+                            isDarkMode.toggle()
+                        }label: {
+                            Image(systemName: "lightbulb.circle")
+                                .font(.system(size: 80))
+                                .foregroundColor(themeManager.themeColor)
+                        }
+                  
                         Spacer()
                         Image(systemName: "info.circle")
                             .font(.system(size: 80))
                             .foregroundColor(themeManager.themeColor)
                         Spacer()
                     }
+                    Spacer()
                 }
             }
         }

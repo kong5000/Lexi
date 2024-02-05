@@ -19,6 +19,7 @@
 		5304D7382B6EA698002BD217 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D7372B6EA698002BD217 /* ThemeManager.swift */; };
 		5304D73A2B6EB289002BD217 /* CustomBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D7392B6EB289002BD217 /* CustomBackButton.swift */; };
 		534540F72B6FA90000D5985E /* LoadingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534540F62B6FA90000D5985E /* LoadingScreen.swift */; };
+		534540F92B705AD100D5985E /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534540F82B705AD100D5985E /* SpinnerView.swift */; };
 		535156D92B6A65A20040E539 /* WordGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535156D82B6A65A20040E539 /* WordGameApp.swift */; };
 		535156DB2B6A65A20040E539 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535156DA2B6A65A20040E539 /* GameView.swift */; };
 		535156DD2B6A65A30040E539 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 535156DC2B6A65A30040E539 /* Assets.xcassets */; };
@@ -61,6 +62,7 @@
 		5304D7372B6EA698002BD217 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		5304D7392B6EB289002BD217 /* CustomBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBackButton.swift; sourceTree = "<group>"; };
 		534540F62B6FA90000D5985E /* LoadingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingScreen.swift; sourceTree = "<group>"; };
+		534540F82B705AD100D5985E /* SpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
 		535156D52B6A65A20040E539 /* WordGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WordGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		535156D82B6A65A20040E539 /* WordGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGameApp.swift; sourceTree = "<group>"; };
 		535156DA2B6A65A20040E539 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				5304D7372B6EA698002BD217 /* ThemeManager.swift */,
 				5304D72D2B6D7A80002BD217 /* GameTimer.swift */,
 				535156DA2B6A65A20040E539 /* GameView.swift */,
+				534540F82B705AD100D5985E /* SpinnerView.swift */,
 				5304D72B2B6D1A8F002BD217 /* SegmentedProgress.swift */,
 				535157082B6A95100040E539 /* GameViewModel.swift */,
 				5304D7292B6D0456002BD217 /* HintTimer.swift */,
@@ -306,6 +309,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				535156DB2B6A65A20040E539 /* GameView.swift in Sources */,
+				534540F92B705AD100D5985E /* SpinnerView.swift in Sources */,
 				5304D72A2B6D0456002BD217 /* HintTimer.swift in Sources */,
 				5304D7362B6E6E4E002BD217 /* SettingsView.swift in Sources */,
 				5304D72C2B6D1A8F002BD217 /* SegmentedProgress.swift in Sources */,

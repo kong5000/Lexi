@@ -18,7 +18,12 @@ struct GameView: View {
     @AppStorage("lastGameDate") private var lastGameDate = "Jan 01"
     @State private var timeRemaining = ""
     @State private var practiceMode = false
-
+    
+    @State private var place = 0
+    @State private var players = 0
+    @State private var waitingForRequest = false
+    @State private var gameOver = false
+    
     private func resetGame() {
         viewModel.reset()
         gameTimer.startTimer()
@@ -34,6 +39,70 @@ struct GameView: View {
             }
         }
     }
+    
+    func ordinalNumber(_ number: Int) -> String {
+        var numberSuffix = ""
+        
+        switch number % 10 {
+        case 1:
+            numberSuffix = "st"
+        case 2:
+            numberSuffix = "nd"
+        case 3:
+            numberSuffix = "rd"
+        default:
+            numberSuffix = "th"
+        }
+        
+        // Special case for numbers ending in 11, 12, and 13
+        if (number % 100) / 10 == 1 {
+            numberSuffix = "th"
+        }
+        
+        return "\(number)\(numberSuffix)"
+    }
+    
+    @State private var result: String = ""
+    
+    func sendPostRequest() {
+        guard let url = URL(string: "https://us-central1-lexi-word-game.cloudfunctions.net/updatePuzzleScore") else {
+            print("Invalid URL")
+            return
+        }
+        
+        let payload: [String: Any] = [
+            "puzzleId": lastGameDate,
+            "score": gameTimer.secondsElapsed,
+            "userId": "userid123abc"
+        ]
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: payload)
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = jsonData
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+            }
+            
+            if let data = data {
+                do {
+                    let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                    print(jsonResponse ?? "NONE")
+                    place = jsonResponse?["place"] as! Int
+                    players = jsonResponse?["totalPlayers"] as! Int
+                    waitingForRequest = false
+                } catch {
+                    print("Error parsing JSON: \(error.localizedDescription)")
+                }
+            }
+        }.resume()
+    }
+    
+    
     var body: some View {
         ZStack{
             themeManager.accentColor.ignoresSafeArea()
@@ -41,19 +110,24 @@ struct GameView: View {
                 VStack {
                     if(practiceMode){
                         VStack {
-                            Text("New daily puzzle in \(timeRemaining)")
+                            Text("New daily puzzle in:")
                                 .font(.system(size: 25))
-                                 .foregroundColor(themeManager.themeColor)
-                                 .padding()
+                                .foregroundColor(themeManager.themeColor)
+                            Text(timeRemaining)
+                                .font(.system(size: 25).monospacedDigit())
+                                .foregroundColor(themeManager.themeColor)
+                                .font(.system(size: 25))
+                                .foregroundColor(themeManager.themeColor)
                             Text("Loading practice mode")
                                 .font(.system(size: 25))
-                                 .foregroundColor(themeManager.themeColor)
+                                .foregroundColor(themeManager.themeColor)
+                                .padding()
                         }       .onAppear {
                             updateCountdown()
-                                // Update the countdown every second
-                                Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                                    updateCountdown()
-                                }
+                            // Update the countdown every second
+                            Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                                updateCountdown()
+                            }
                         }
                     }else{
                         Text("Loading the daily puzzle")
@@ -64,111 +138,136 @@ struct GameView: View {
                     }
                 }
             }else{
-                VStack {
-                    Text("\(gameTimer.secondsElapsed, specifier: "%.1f")")
-                        .font(.system(size: 25).monospacedDigit())
-                        .foregroundColor(themeManager.themeColor)
-                    SegmentedProgress(progress: viewModel.gameProgress)
-                        .padding()
-                    Text(viewModel.gameWords[viewModel.questionIndex].hint)
-                        .font(.system(size: 25))
-                        .foregroundColor(themeManager.themeColor)
-                        .frame(height: 120)
-                        .padding()
-                    
-                    HStack(alignment: .top){
-                        VStack{
-                            Wheel(selectedLetter: $viewModel.letter1, letters: viewModel.wheelLetters[0], hint: $viewModel.hint1                                      )
-                            Spacer()
-                        }
-                        VStack{
-                            Wheel(selectedLetter: $viewModel.letter2, letters: viewModel.wheelLetters[1], hint: $viewModel.hint2)
-                            Spacer()
-                        }
-                        VStack{
-                            Wheel(selectedLetter: $viewModel.letter3, letters: viewModel.wheelLetters[2], hint: $viewModel.hint3)
-                            Spacer()
-                        }
-                        VStack{
-                            Wheel(selectedLetter: $viewModel.letter4, letters: viewModel.wheelLetters[3], hint: $viewModel.hint4)
-                            Spacer()
-                        }
-                    }
-                    .frame(maxHeight: .infinity)
-                    .padding(.top,50)
-                    .padding(.bottom, 50)
-                    
-                    HStack{
-                        Spacer()
-                        Button(action: {
-                            if viewModel.hintButtonActive {
-                                viewModel.generateHint()
-                                AudioServicesPlaySystemSound(1114    )
-                                
+                if(!gameOver){
+                    VStack {
+                        Text("\(gameTimer.secondsElapsed, specifier: "%.1f")")
+                            .font(.system(size: 25).monospacedDigit())
+                            .foregroundColor(themeManager.themeColor)
+                        SegmentedProgress(progress: viewModel.gameProgress)
+                            .padding()
+                        Text(viewModel.gameWords[viewModel.questionIndex].hint)
+                            .font(.system(size: 25))
+                            .foregroundColor(themeManager.themeColor)
+                            .frame(height: 120)
+                            .padding()
+                        
+                        HStack(alignment: .top){
+                            VStack{
+                                Wheel(selectedLetter: $viewModel.letter1, letters: viewModel.wheelLetters[0], hint: $viewModel.hint1                                      )
+                                Spacer()
                             }
-                        }) {
-                            HintTimer(progress: viewModel.hintProgress)
+                            VStack{
+                                Wheel(selectedLetter: $viewModel.letter2, letters: viewModel.wheelLetters[1], hint: $viewModel.hint2)
+                                Spacer()
+                            }
+                            VStack{
+                                Wheel(selectedLetter: $viewModel.letter3, letters: viewModel.wheelLetters[2], hint: $viewModel.hint3)
+                                Spacer()
+                            }
+                            VStack{
+                                Wheel(selectedLetter: $viewModel.letter4, letters: viewModel.wheelLetters[3], hint: $viewModel.hint4)
+                                Spacer()
+                            }
                         }
-                        .disabled(!viewModel.hintButtonActive)
-                        .padding()
-                        Spacer()
-                        Button{
-                            if(viewModel.submitWord()){
-                                AudioServicesPlaySystemSound(1305)
-                                viewModel.startHintCount()
-                                if(viewModel.gameProgress >= 1.0){
-                                    showingAlert = true
-                                    gameTimer.stopTimer()
+                        .frame(maxHeight: .infinity)
+                        .padding(.top,50)
+                        .padding(.bottom, 50)
+                        
+                        HStack{
+                            Spacer()
+                            Button(action: {
+                                if viewModel.hintButtonActive {
+                                    viewModel.generateHint()
+                                    AudioServicesPlaySystemSound(1114    )
+                                    
                                 }
-                            }else{
-                                AudioServicesPlaySystemSound(1306)
+                            }) {
+                                HintTimer(progress: viewModel.hintProgress)
                             }
-                        }label:{
-                            Text("SUBMIT")
-                                .padding()
-                                .foregroundColor(themeManager.accentColor)
-                                .background(themeManager.themeColor)
-                                .font(.system(size: 22))
-                                .clipShape(Capsule())
-                        }.padding()
-                        Spacer()
+                            .disabled(!viewModel.hintButtonActive)
+                            .padding()
+                            Spacer()
+                            Button{
+                                if(viewModel.submitWord()){
+                                    AudioServicesPlaySystemSound(1305)
+                                    viewModel.startHintCount()
+                                    if(viewModel.gameProgress >= 1.0){
+                                        //                                    showingAlert = true
+                                        gameTimer.stopTimer()
+                                        sendPostRequest()
+                                        waitingForRequest = true
+                                        withAnimation{
+                                            gameOver = true
+                                            
+                                        }
+                                    }
+                                }else{
+                                    AudioServicesPlaySystemSound(1306)
+                                }
+                            }label:{
+                                Text("SUBMIT")
+                                    .padding()
+                                    .foregroundColor(themeManager.accentColor)
+                                    .background(themeManager.themeColor)
+                                    .font(.system(size: 22))
+                                    .clipShape(Capsule())
+                            }.padding()
+                            Spacer()
+                        }
+                        .additionalPaddingForiPad()
+                        
                     }
-                    .additionalPaddingForiPad()
-                    
-                }
-                .onAppear(){
-                    resetGame()
-                    gameTimer.startTimer()
-                }
-
-                .alert("WIN", isPresented: $showingAlert) {
-                    Button("OK", role: .cancel) {
+                    .onAppear(){
                         resetGame()
+                        gameTimer.startTimer()
                     }
+                    .alert("WIN", isPresented: $showingAlert) {
+                        Button("OK", role: .cancel) {
+                            sendPostRequest()
+                            resetGame()
+                        }
+                    }
+                }else{
+                    VStack{
+                        Text("Time: \(gameTimer.secondsElapsed.formatted())")
+                            .font(.system(size: 25))
+                            .foregroundColor(themeManager.themeColor)
+                            .padding()
+                        if(waitingForRequest){
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: themeManager.themeColor))
+                        }
+                        if (!waitingForRequest){
+                            
+                            Text("\(ordinalNumber(place)) out of \(players) players")                 .font(.system(size: 25))
+                                .foregroundColor(themeManager.themeColor)
+                        }
+                    }
+                    
                 }
             }
         }.animation(.easeInOut(duration: 1.25), value: loading)
-
+        .animation(.linear(duration: 5.25), value: gameOver)
         .onAppear {
-            // Simulate loading state for 3 seconds
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MMM d"
-            let today = dateFormatter.string(from: Date())
-            if(lastGameDate != today){
-                lastGameDate = today
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    loading = false
+                // Simulate loading state for 3 seconds
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "MMM d"
+                let today = dateFormatter.string(from: Date())
+                if(lastGameDate != today){
+                    lastGameDate = today
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        loading = false
+                    }
+                }else{
+                    practiceMode = true
+                    
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
+                        loading = false
+                    }
                 }
-            }else{
-                practiceMode = true
                 
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
-                    loading = false
-                }
             }
-          
-     }
     }
 }
 
