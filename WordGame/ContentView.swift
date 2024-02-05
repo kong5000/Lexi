@@ -11,6 +11,8 @@ struct ContentView: View {
     @StateObject private var themeManager = ThemeManager()
     @AppStorage("lastLogin") private var lastLogin = "Jan 01"
     @AppStorage("isDarkMode") private var isDarkMode = true
+    @AppStorage("dailyFinishes") private var dailyFinishes = 0
+    @AppStorage("tutorial") private var tutorial = true
 
 
     var body: some View {
@@ -37,15 +39,20 @@ struct ContentView: View {
                         Button{
                             isDarkMode.toggle()
                         }label: {
-                            Image(systemName: "lightbulb.circle")
+                            Image(systemName: "circle.lefthalf.filled")
                                 .font(.system(size: 80))
                                 .foregroundColor(themeManager.themeColor)
                         }
                   
                         Spacer()
-                        Image(systemName: "info.circle")
-                            .font(.system(size: 80))
-                            .foregroundColor(themeManager.themeColor)
+                        NavigationLink(destination: InfoView()
+                            .navigationBarBackButtonHidden(true)
+                            .navigationBarItems(leading: CustomBackButton())
+                        ){
+                            Image(systemName: "info.circle")
+                                .font(.system(size: 80))
+                                .foregroundColor(themeManager.themeColor)
+                            }
                         Spacer()
                     }
                     Spacer()
@@ -56,6 +63,9 @@ struct ContentView: View {
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "MMM d"
                 lastLogin = dateFormatter.string(from: Date())
+            if(dailyFinishes > 0){
+                tutorial = false
+            }
         }
         .accentColor(themeManager.themeColor)
     }

@@ -7,8 +7,8 @@
 
 import Foundation
 
-let GAME_LENGTH = 7
-let HINT_SECONDS = 10
+let GAME_LENGTH = 1
+var HINT_SECONDS = 10
 
 struct Word {
     var word: String
@@ -16,6 +16,7 @@ struct Word {
 }
 
 class GameViewModel {
+    private var tutorialMode = false
     static let shared = GameViewModel()
     private var words = [Word]()
     private var solvedWords = [String]()
@@ -191,6 +192,23 @@ class GameViewModel {
         if let timer = hintCountDownTimer {
             RunLoop.main.add(timer, forMode: .common)
         }
+    }
+    
+    func startTutorialMode(){
+        tutorialMode = true
+        gameWords = [
+            Word(word:"word", hint:"Scroll the letters to find the passWORD. Then submit."),
+            Word(word:"hint", hint:"Get a free letter with the HINT button"),
+            Word(word:"time", hint:"Try to solve the daily puzzle in the best TIME")
+        ]
+//        wheelLetters = generateLetters()
+        wheelLetters = [["W","T","H"],["Z","O","I"],["R","N","M"],["D","T","E"] ]
+        letter1 = wheelLetters[0][0]
+        letter2 = wheelLetters[1][0]
+        letter3 = wheelLetters[2][0]
+        letter4 = wheelLetters[3][0]
+        
+        HINT_SECONDS = 5
     }
 }
 

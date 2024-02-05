@@ -18,11 +18,21 @@ struct GameView: View {
     @AppStorage("lastGameDate") private var lastGameDate = "Jan 01"
     @State private var timeRemaining = ""
     @State private var practiceMode = false
-    
+    @State private var resultText = ""
     @State private var place = 0
     @State private var players = 0
     @State private var waitingForRequest = false
     @State private var gameOver = false
+    @State private var requestError = false
+    
+    @AppStorage("top10") private var top10Finishes = 0
+    @AppStorage("top100") private var top100Finishes = 0
+    @AppStorage("dailyFinishes") private var dailyFinishes = 0
+    @AppStorage("topFinish") private var topFinish = 999999
+    @AppStorage("tutorial") private var tutorial = true
+
+    
+    @State private var newRecord = false
     
     private func resetGame() {
         viewModel.reset()
@@ -86,6 +96,8 @@ struct GameView: View {
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 print("Error: \(error.localizedDescription)")
+                requestError = true
+                waitingForRequest = false
             }
             
             if let data = data {
@@ -95,8 +107,22 @@ struct GameView: View {
                     place = jsonResponse?["place"] as! Int
                     players = jsonResponse?["totalPlayers"] as! Int
                     waitingForRequest = false
+                    resultText = "\(ordinalNumber(place)) out of \(players) players"
+                    
+                    if(place <= 10){
+                        top10Finishes += 1
+                    }else if(place <= 100){
+                        top100Finishes += 1
+                    }
+                    dailyFinishes += 1
+                    if(place < topFinish){
+                        topFinish = place
+                        newRecord = true
+                    }
                 } catch {
                     print("Error parsing JSON: \(error.localizedDescription)")
+                    requestError = true
+                    waitingForRequest = false
                 }
             }
         }.resume()
@@ -108,7 +134,17 @@ struct GameView: View {
             themeManager.accentColor.ignoresSafeArea()
             if(loading){
                 VStack {
-                    if(practiceMode){
+                    if(tutorial){
+                        Text("Welcome!")
+                            .font(.system(size: 35))
+                            .foregroundColor(themeManager.themeColor)
+                            .padding()
+                        Text("Loading Tutorial Puzzle")
+                            .font(.system(size: 25))
+                            .foregroundColor(themeManager.themeColor)
+                            .padding()
+                    }
+                    else if(practiceMode){
                         VStack {
                             Text("New daily puzzle in:")
                                 .font(.system(size: 25))
@@ -118,7 +154,7 @@ struct GameView: View {
                                 .foregroundColor(themeManager.themeColor)
                                 .font(.system(size: 25))
                                 .foregroundColor(themeManager.themeColor)
-                            Text("Loading practice mode")
+                            Text("Loading practice puzzle")
                                 .font(.system(size: 25))
                                 .foregroundColor(themeManager.themeColor)
                                 .padding()
@@ -140,9 +176,15 @@ struct GameView: View {
             }else{
                 if(!gameOver){
                     VStack {
-                        Text("\(gameTimer.secondsElapsed, specifier: "%.1f")")
-                            .font(.system(size: 25).monospacedDigit())
-                            .foregroundColor(themeManager.themeColor)
+                        if(tutorial){
+                            Text("Tutorial")
+                                .font(.system(size: 25).monospacedDigit())
+                                .foregroundColor(themeManager.themeColor)
+                        }else{
+                            Text("\(gameTimer.secondsElapsed, specifier: "%.1f")")
+                                .font(.system(size: 25).monospacedDigit())
+                                .foregroundColor(themeManager.themeColor)
+                        }
                         SegmentedProgress(progress: viewModel.gameProgress)
                             .padding()
                         Text(viewModel.gameWords[viewModel.questionIndex].hint)
@@ -217,10 +259,6 @@ struct GameView: View {
                         .additionalPaddingForiPad()
                         
                     }
-                    .onAppear(){
-                        resetGame()
-                        gameTimer.startTimer()
-                    }
                     .alert("WIN", isPresented: $showingAlert) {
                         Button("OK", role: .cancel) {
                             sendPostRequest()
@@ -228,46 +266,91 @@ struct GameView: View {
                         }
                     }
                 }else{
+                    Spacer()
                     VStack{
-                        Text("Time: \(gameTimer.secondsElapsed.formatted())")
+                        if(tutorial){
+                            Text("Tutorial Puzzle")
+                                .font(.system(size: 25))
+                                .foregroundColor(themeManager.themeColor)
+                        }else{
+                            Text("\(lastGameDate) Puzzle")
+                                .font(.system(size: 25))
+                                .foregroundColor(themeManager.themeColor)
+                        }
+                        Text("Time: \(gameTimer.secondsElapsed.formatted())s")
                             .font(.system(size: 25))
                             .foregroundColor(themeManager.themeColor)
                             .padding()
-                        if(waitingForRequest){
-                            ProgressView()
+                        if(waitingForRequest){ProgressView()
                                 .progressViewStyle(CircularProgressViewStyle(tint: themeManager.themeColor))
+                                .scaleEffect(2)
+                                .padding()
+                                .opacity(waitingForRequest ? 1 : 0)
                         }
-                        if (!waitingForRequest){
-                            
-                            Text("\(ordinalNumber(place)) out of \(players) players")                 .font(.system(size: 25))
+                        if(requestError && !tutorial){
+                            Text("Sorry, could not connect to our server for your daily ranking").font(.system(size: 25))
+                                .opacity(waitingForRequest ? 0 : 1)
                                 .foregroundColor(themeManager.themeColor)
+                                .padding()
+                        }else{
+                            Text(resultText)                 
+                                .font(.system(size: 25))
+                                .opacity(waitingForRequest ? 0 : 1)
+                                .foregroundColor(themeManager.themeColor)
+                                .frame(height: 50)
+                                .padding(.bottom, 100)
+                            
+                            if(newRecord && !tutorial){
+                                Text("New Record!")
+                                    .font(.system(size: 35))
+                                    .opacity(waitingForRequest ? 0 : 1)
+                                    .foregroundColor(themeManager.themeColor)
+                                    .frame(height: 50)
+                                    .padding(.bottom, 100)
+                            }
+                            if(tutorial){
+                                Text("Daily puzzle now available!")
+                                    .font(.system(size: 30))
+                                    .opacity(waitingForRequest ? 0 : 1)
+                                    .foregroundColor(themeManager.themeColor)
+                                    .padding()
+                            }
                         }
                     }
+                    Spacer()
                     
                 }
             }
-        }.animation(.easeInOut(duration: 1.25), value: loading)
-        .animation(.linear(duration: 5.25), value: gameOver)
+        }
+        .animation(.easeInOut(duration: 1.25), value: loading)
+        .animation(.linear(duration: 3.25), value: gameOver)
+        .animation(.linear(duration: 1.6), value: waitingForRequest)
+        .animation(.linear(duration: 1.6), value: newRecord)
         .onAppear {
-                // Simulate loading state for 3 seconds
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "MMM d"
-                let today = dateFormatter.string(from: Date())
-                if(lastGameDate != today){
-                    lastGameDate = today
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                        loading = false
-                    }
-                }else{
-                    practiceMode = true
-                    
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
-                        loading = false
-                    }
-                }
-                
+            if(tutorial){
+                viewModel.startTutorialMode()
+            }else{
+                resetGame()
+
             }
+             
+            gameTimer.startTimer()
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMM d"
+            let today = dateFormatter.string(from: Date())
+            if(lastGameDate != today){
+                lastGameDate = today
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    loading = false
+                }
+            }else{
+                practiceMode = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
+                    loading = false
+                }
+            }
+        }
     }
 }
 

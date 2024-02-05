@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import Combine
+
 
 struct Wheel: View {
     @Binding var selectedLetter: String
@@ -25,10 +27,11 @@ struct Wheel: View {
                 }
             }  .scaleEffect(2)
                 .pickerStyle(.wheel)
-        }.onChange(of: hint) {
-            if let newHint = hint {
+        }.onReceive(Just(hint)) { newHint in
+            // Respond to changes in the hint
+            if let newHint = newHint {
                 // Programmatically set the selectedLetter to the newHint
-                withAnimation{
+                withAnimation {
                     selectedLetter = newHint
                 }
             }
