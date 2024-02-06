@@ -7,18 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5304D7162B6BD1FB002BD217 /* 4_letter_words.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5304D7152B6BD1FB002BD217 /* 4_letter_words.txt */; };
 		5304D71A2B6BE2C4002BD217 /* 4_letter_word_hints_no_duplicates.csv in Resources */ = {isa = PBXBuildFile; fileRef = 5304D7192B6BE2C4002BD217 /* 4_letter_word_hints_no_duplicates.csv */; };
 		5304D72A2B6D0456002BD217 /* HintTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D7292B6D0456002BD217 /* HintTimer.swift */; };
-		5304D72C2B6D1A8F002BD217 /* SegmentedProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D72B2B6D1A8F002BD217 /* SegmentedProgress.swift */; };
 		5304D72E2B6D7A80002BD217 /* GameTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D72D2B6D7A80002BD217 /* GameTimer.swift */; };
 		5304D7302B6D8404002BD217 /* CircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D72F2B6D8404002BD217 /* CircleButton.swift */; };
 		5304D7322B6D84A8002BD217 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D7312B6D84A8002BD217 /* ContentView.swift */; };
-		5304D7342B6D86C0002BD217 /* SettingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D7332B6D86C0002BD217 /* SettingButton.swift */; };
-		5304D7362B6E6E4E002BD217 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D7352B6E6E4E002BD217 /* SettingsView.swift */; };
 		5304D7382B6EA698002BD217 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D7372B6EA698002BD217 /* ThemeManager.swift */; };
 		5304D73A2B6EB289002BD217 /* CustomBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304D7392B6EB289002BD217 /* CustomBackButton.swift */; };
-		534540F72B6FA90000D5985E /* LoadingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534540F62B6FA90000D5985E /* LoadingScreen.swift */; };
 		534540F92B705AD100D5985E /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534540F82B705AD100D5985E /* SpinnerView.swift */; };
 		534540FB2B712D9800D5985E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534540FA2B712D9800D5985E /* InfoView.swift */; };
 		534540FD2B7284C300D5985E /* generated_puzzles.json in Resources */ = {isa = PBXBuildFile; fileRef = 534540FC2B7284C300D5985E /* generated_puzzles.json */; };
@@ -31,7 +26,6 @@
 		535156F62B6A65A30040E539 /* WordGameUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535156F52B6A65A30040E539 /* WordGameUITestsLaunchTests.swift */; };
 		535157072B6A811F0040E539 /* Wheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535157062B6A811F0040E539 /* Wheel.swift */; };
 		535157092B6A95100040E539 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535157082B6A95100040E539 /* GameViewModel.swift */; };
-		5351570B2B6A952A0040E539 /* en.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5351570A2B6A952A0040E539 /* en.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,18 +46,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5304D7152B6BD1FB002BD217 /* 4_letter_words.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 4_letter_words.txt; sourceTree = "<group>"; };
 		5304D7192B6BE2C4002BD217 /* 4_letter_word_hints_no_duplicates.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 4_letter_word_hints_no_duplicates.csv; sourceTree = "<group>"; };
 		5304D7292B6D0456002BD217 /* HintTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintTimer.swift; sourceTree = "<group>"; };
-		5304D72B2B6D1A8F002BD217 /* SegmentedProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedProgress.swift; sourceTree = "<group>"; };
 		5304D72D2B6D7A80002BD217 /* GameTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTimer.swift; sourceTree = "<group>"; };
 		5304D72F2B6D8404002BD217 /* CircleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleButton.swift; sourceTree = "<group>"; };
 		5304D7312B6D84A8002BD217 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		5304D7332B6D86C0002BD217 /* SettingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingButton.swift; sourceTree = "<group>"; };
-		5304D7352B6E6E4E002BD217 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5304D7372B6EA698002BD217 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		5304D7392B6EB289002BD217 /* CustomBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBackButton.swift; sourceTree = "<group>"; };
-		534540F62B6FA90000D5985E /* LoadingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingScreen.swift; sourceTree = "<group>"; };
 		534540F82B705AD100D5985E /* SpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
 		534540FA2B712D9800D5985E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		534540FC2B7284C300D5985E /* generated_puzzles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = generated_puzzles.json; sourceTree = "<group>"; };
@@ -79,7 +68,6 @@
 		535156F52B6A65A30040E539 /* WordGameUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGameUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		535157062B6A811F0040E539 /* Wheel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wheel.swift; sourceTree = "<group>"; };
 		535157082B6A95100040E539 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
-		5351570A2B6A952A0040E539 /* en.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = en.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,25 +120,19 @@
 			children = (
 				535156D82B6A65A20040E539 /* WordGameApp.swift */,
 				5304D7312B6D84A8002BD217 /* ContentView.swift */,
-				534540F62B6FA90000D5985E /* LoadingScreen.swift */,
 				5304D7392B6EB289002BD217 /* CustomBackButton.swift */,
-				5304D7352B6E6E4E002BD217 /* SettingsView.swift */,
 				5304D7372B6EA698002BD217 /* ThemeManager.swift */,
 				5304D72D2B6D7A80002BD217 /* GameTimer.swift */,
 				535156DA2B6A65A20040E539 /* GameView.swift */,
 				534540F82B705AD100D5985E /* SpinnerView.swift */,
-				5304D72B2B6D1A8F002BD217 /* SegmentedProgress.swift */,
 				534540FA2B712D9800D5985E /* InfoView.swift */,
 				535157082B6A95100040E539 /* GameViewModel.swift */,
 				5304D7292B6D0456002BD217 /* HintTimer.swift */,
 				5304D72F2B6D8404002BD217 /* CircleButton.swift */,
-				5304D7332B6D86C0002BD217 /* SettingButton.swift */,
 				535157062B6A811F0040E539 /* Wheel.swift */,
 				534540FC2B7284C300D5985E /* generated_puzzles.json */,
 				5304D7192B6BE2C4002BD217 /* 4_letter_word_hints_no_duplicates.csv */,
-				5304D7152B6BD1FB002BD217 /* 4_letter_words.txt */,
 				535156DC2B6A65A30040E539 /* Assets.xcassets */,
-				5351570A2B6A952A0040E539 /* en.txt */,
 				535156DE2B6A65A30040E539 /* Preview Content */,
 			);
 			path = WordGame;
@@ -286,10 +268,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5304D71A2B6BE2C4002BD217 /* 4_letter_word_hints_no_duplicates.csv in Resources */,
-				5351570B2B6A952A0040E539 /* en.txt in Resources */,
 				535156E02B6A65A30040E539 /* Preview Assets.xcassets in Resources */,
 				535156DD2B6A65A30040E539 /* Assets.xcassets in Resources */,
-				5304D7162B6BD1FB002BD217 /* 4_letter_words.txt in Resources */,
 				534540FD2B7284C300D5985E /* generated_puzzles.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -319,15 +299,11 @@
 				534540F92B705AD100D5985E /* SpinnerView.swift in Sources */,
 				534540FB2B712D9800D5985E /* InfoView.swift in Sources */,
 				5304D72A2B6D0456002BD217 /* HintTimer.swift in Sources */,
-				5304D7362B6E6E4E002BD217 /* SettingsView.swift in Sources */,
-				5304D72C2B6D1A8F002BD217 /* SegmentedProgress.swift in Sources */,
 				5304D7302B6D8404002BD217 /* CircleButton.swift in Sources */,
 				5304D72E2B6D7A80002BD217 /* GameTimer.swift in Sources */,
 				5304D7322B6D84A8002BD217 /* ContentView.swift in Sources */,
 				535156D92B6A65A20040E539 /* WordGameApp.swift in Sources */,
-				534540F72B6FA90000D5985E /* LoadingScreen.swift in Sources */,
 				535157072B6A811F0040E539 /* Wheel.swift in Sources */,
-				5304D7342B6D86C0002BD217 /* SettingButton.swift in Sources */,
 				535157092B6A95100040E539 /* GameViewModel.swift in Sources */,
 				5304D73A2B6EB289002BD217 /* CustomBackButton.swift in Sources */,
 				5304D7382B6EA698002BD217 /* ThemeManager.swift in Sources */,
@@ -500,8 +476,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -530,8 +506,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

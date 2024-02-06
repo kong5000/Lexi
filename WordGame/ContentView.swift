@@ -13,8 +13,7 @@ struct ContentView: View {
     @AppStorage("isDarkMode") private var isDarkMode = true
     @AppStorage("dailyFinishes") private var dailyFinishes = 0
     @AppStorage("tutorial") private var tutorial = true
-
-
+    
     var body: some View {
         NavigationStack{
             ZStack{
@@ -26,13 +25,13 @@ struct ContentView: View {
                         .foregroundColor(themeManager.themeColor)
                         .padding(.bottom, 70)
                     Spacer()
-
+                    
                     NavigationLink(destination: GameView()
-                        .navigationBarBackButtonHidden(true) 
+                        .navigationBarBackButtonHidden(true)
                         .navigationBarItems(leading: CustomBackButton())
                     ){
                         CircleButton(text: "PLAY")
-                        }.padding(.bottom, 70)
+                    }.padding(.bottom, 70)
                     
                     HStack{
                         Spacer()
@@ -43,7 +42,7 @@ struct ContentView: View {
                                 .font(.system(size: 80))
                                 .foregroundColor(themeManager.themeColor)
                         }
-                  
+                        
                         Spacer()
                         NavigationLink(destination: InfoView()
                             .navigationBarBackButtonHidden(true)
@@ -52,21 +51,23 @@ struct ContentView: View {
                             Image(systemName: "info.circle")
                                 .font(.system(size: 80))
                                 .foregroundColor(themeManager.themeColor)
-                            }
+                        }
                         Spacer()
                     }
                     Spacer()
                 }
             }
-        }
-        .onAppear(){
+            .onAppear(){
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "MMM d"
                 lastLogin = dateFormatter.string(from: Date())
-            if(dailyFinishes > 0){
-                tutorial = false
+                
+                if(dailyFinishes > 0){
+                    tutorial = false
+                }
             }
         }
+        
         .accentColor(themeManager.themeColor)
     }
 }

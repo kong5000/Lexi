@@ -80,7 +80,6 @@ class GameViewModel {
             print("File not found")
         }
         
-        
         if let fileURL = Bundle.main.url(forResource: "4_letter_word_hints_no_duplicates", withExtension: "csv"),
            let content = try? String(contentsOf: fileURL) {
             let lines = content.components(separatedBy: "\n")

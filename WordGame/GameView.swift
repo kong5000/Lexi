@@ -184,7 +184,8 @@ struct GameView: View {
                                 .font(.system(size: 25).monospacedDigit())
                                 .foregroundColor(themeManager.themeColor)
                         }
-                        SegmentedProgress(progress: viewModel.gameProgress)
+                        ProgressView(value: viewModel.gameProgress)
+                            .tint(themeManager.themeColor)
                             .padding()
                         Text(viewModel.gameWords[viewModel.questionIndex].hint)
                             .font(.system(size: 25))
