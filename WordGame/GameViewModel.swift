@@ -7,15 +7,18 @@
 
 import Foundation
 
-let GAME_LENGTH = 1
+let GAME_LENGTH = 7
 var HINT_SECONDS = 10
 
-struct Word {
+struct Word: Decodable {
     var word: String
     var hint: String
 }
 
+typealias Puzzle = [Word]
+
 class GameViewModel {
+    private var practiceMode = false
     private var tutorialMode = false
     static let shared = GameViewModel()
     private var words = [Word]()
@@ -52,6 +55,32 @@ class GameViewModel {
     var gameWords = [Word]()
     
     init() {
+        if let url = Bundle.main.url(forResource: "generated_puzzles", withExtension: "json") {
+            do {
+                let data = try Data(contentsOf: url)
+                let decoder = JSONDecoder()
+                let puzzles = try decoder.decode([[Word]].self, from: data)
+                let currentDate = Date()
+
+                // Create a calendar instance
+                let calendar = Calendar.current
+
+                // Get the day of the year
+                if let dayOfYear = calendar.ordinality(of: .day, in: .year, for: currentDate) {
+                    gameWords = puzzles[dayOfYear % puzzles.count]
+
+                } else {
+                    print("Error calculating day of the year")
+                }
+                
+            } catch {
+                print("Error decoding JSON: \(error)")
+            }
+        } else {
+            print("File not found")
+        }
+        
+        
         if let fileURL = Bundle.main.url(forResource: "4_letter_word_hints_no_duplicates", withExtension: "csv"),
            let content = try? String(contentsOf: fileURL) {
             let lines = content.components(separatedBy: "\n")
@@ -97,7 +126,7 @@ class GameViewModel {
         
         for index in res.indices {
             res[index].shuffle()
-            while res[index].count < 4 {
+            while res[index].count < 3 {
                 // Generate a random uppercase letter
                 let randomLetter = String(UnicodeScalar(Int.random(in: 65...90))!)
                 
@@ -137,12 +166,8 @@ class GameViewModel {
     }
     
     func reset(){
-        gameWords = [Word]()
-        
-        for _ in 0..<GAME_LENGTH{
-            gameWords.append(drawWordHints())
-        }
-        
+        HINT_SECONDS = 10
+
         wheelLetters = generateLetters()
         letter1 = wheelLetters[0][0]
         letter2 = wheelLetters[1][0]
@@ -201,7 +226,7 @@ class GameViewModel {
             Word(word:"hint", hint:"Get a free letter with the HINT button"),
             Word(word:"time", hint:"Try to solve the daily puzzle in the best TIME")
         ]
-//        wheelLetters = generateLetters()
+
         wheelLetters = [["W","T","H"],["Z","O","I"],["R","N","M"],["D","T","E"] ]
         letter1 = wheelLetters[0][0]
         letter2 = wheelLetters[1][0]
@@ -209,6 +234,17 @@ class GameViewModel {
         letter4 = wheelLetters[3][0]
         
         HINT_SECONDS = 5
+    }
+    
+    func startPracticeMode(){
+        practiceMode = true
+        gameWords = [Word]()
+        
+        for _ in 0..<GAME_LENGTH{
+            gameWords.append(drawWordHints())
+        }
+        
+        reset()
     }
 }
 

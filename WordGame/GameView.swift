@@ -103,7 +103,6 @@ struct GameView: View {
             if let data = data {
                 do {
                     let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                    print(jsonResponse ?? "NONE")
                     place = jsonResponse?["place"] as! Int
                     players = jsonResponse?["totalPlayers"] as! Int
                     waitingForRequest = false
@@ -324,7 +323,7 @@ struct GameView: View {
         }
         .animation(.easeInOut(duration: 1.25), value: loading)
         .animation(.linear(duration: 3.25), value: gameOver)
-        .animation(.linear(duration: 1.6), value: waitingForRequest)
+        .animation(.linear(duration: 1), value: waitingForRequest)
         .animation(.linear(duration: 1.6), value: newRecord)
         .onAppear {
             if(tutorial){

@@ -21,6 +21,7 @@
 		534540F72B6FA90000D5985E /* LoadingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534540F62B6FA90000D5985E /* LoadingScreen.swift */; };
 		534540F92B705AD100D5985E /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534540F82B705AD100D5985E /* SpinnerView.swift */; };
 		534540FB2B712D9800D5985E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534540FA2B712D9800D5985E /* InfoView.swift */; };
+		534540FD2B7284C300D5985E /* generated_puzzles.json in Resources */ = {isa = PBXBuildFile; fileRef = 534540FC2B7284C300D5985E /* generated_puzzles.json */; };
 		535156D92B6A65A20040E539 /* WordGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535156D82B6A65A20040E539 /* WordGameApp.swift */; };
 		535156DB2B6A65A20040E539 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535156DA2B6A65A20040E539 /* GameView.swift */; };
 		535156DD2B6A65A30040E539 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 535156DC2B6A65A30040E539 /* Assets.xcassets */; };
@@ -65,6 +66,7 @@
 		534540F62B6FA90000D5985E /* LoadingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingScreen.swift; sourceTree = "<group>"; };
 		534540F82B705AD100D5985E /* SpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
 		534540FA2B712D9800D5985E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		534540FC2B7284C300D5985E /* generated_puzzles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = generated_puzzles.json; sourceTree = "<group>"; };
 		535156D52B6A65A20040E539 /* WordGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WordGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		535156D82B6A65A20040E539 /* WordGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGameApp.swift; sourceTree = "<group>"; };
 		535156DA2B6A65A20040E539 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				5304D72F2B6D8404002BD217 /* CircleButton.swift */,
 				5304D7332B6D86C0002BD217 /* SettingButton.swift */,
 				535157062B6A811F0040E539 /* Wheel.swift */,
+				534540FC2B7284C300D5985E /* generated_puzzles.json */,
 				5304D7192B6BE2C4002BD217 /* 4_letter_word_hints_no_duplicates.csv */,
 				5304D7152B6BD1FB002BD217 /* 4_letter_words.txt */,
 				535156DC2B6A65A30040E539 /* Assets.xcassets */,
@@ -287,6 +290,7 @@
 				535156E02B6A65A30040E539 /* Preview Assets.xcassets in Resources */,
 				535156DD2B6A65A30040E539 /* Assets.xcassets in Resources */,
 				5304D7162B6BD1FB002BD217 /* 4_letter_words.txt in Resources */,
+				534540FD2B7284C300D5985E /* generated_puzzles.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
