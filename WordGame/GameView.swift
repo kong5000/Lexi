@@ -11,7 +11,6 @@ import AVFoundation
 struct GameView: View {
     @State private var showingAlert = false
     @State private var loading = true
-    @State private var message = "Loading Todays Puzzle"
     @State private var viewModel = GameViewModel()
     @StateObject private var gameTimer = GameTimer()
     @StateObject private var themeManager = ThemeManager()
@@ -21,6 +20,7 @@ struct GameView: View {
     @State private var resultText = ""
     @State private var place = 0
     @State private var players = 0
+    @State private var newRecord = false
     @State private var waitingForRequest = false
     @State private var gameOver = false
     @State private var requestError = false
@@ -30,14 +30,6 @@ struct GameView: View {
     @AppStorage("dailyFinishes") private var dailyFinishes = 0
     @AppStorage("topFinish") private var topFinish = 999999
     @AppStorage("tutorial") private var tutorial = true
-
-    
-    @State private var newRecord = false
-    
-    private func resetGame() {
-        viewModel.reset()
-        gameTimer.startTimer()
-    }
     
     func updateCountdown() {
         let currentDate = Date()
@@ -71,8 +63,6 @@ struct GameView: View {
         
         return "\(number)\(numberSuffix)"
     }
-    
-    @State private var result: String = ""
     
     func sendPostRequest() {
         guard let url = URL(string: "https://us-central1-lexi-word-game.cloudfunctions.net/updatePuzzleScore") else {
@@ -127,7 +117,6 @@ struct GameView: View {
         }.resume()
     }
     
-    
     var body: some View {
         ZStack{
             themeManager.accentColor.ignoresSafeArea()
@@ -157,7 +146,8 @@ struct GameView: View {
                                 .font(.system(size: 25))
                                 .foregroundColor(themeManager.themeColor)
                                 .padding()
-                        }       .onAppear {
+                        }
+                        .onAppear {
                             updateCountdown()
                             // Update the countdown every second
                             Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
@@ -195,7 +185,7 @@ struct GameView: View {
                         
                         HStack(alignment: .top){
                             VStack{
-                                Wheel(selectedLetter: $viewModel.letter1, letters: viewModel.wheelLetters[0], hint: $viewModel.hint1                                      )
+                                Wheel(selectedLetter: $viewModel.letter1, letters: viewModel.wheelLetters[0], hint: $viewModel.hint1)
                                 Spacer()
                             }
                             VStack{
@@ -220,8 +210,7 @@ struct GameView: View {
                             Button(action: {
                                 if viewModel.hintButtonActive {
                                     viewModel.generateHint()
-                                    AudioServicesPlaySystemSound(1114    )
-                                    
+                                    AudioServicesPlaySystemSound(1114)
                                 }
                             }) {
                                 HintTimer(progress: viewModel.hintProgress)
@@ -234,13 +223,11 @@ struct GameView: View {
                                     AudioServicesPlaySystemSound(1305)
                                     viewModel.startHintCount()
                                     if(viewModel.gameProgress >= 1.0){
-                                        //                                    showingAlert = true
                                         gameTimer.stopTimer()
                                         sendPostRequest()
                                         waitingForRequest = true
                                         withAnimation{
                                             gameOver = true
-                                            
                                         }
                                     }
                                 }else{
@@ -257,13 +244,6 @@ struct GameView: View {
                             Spacer()
                         }
                         .additionalPaddingForiPad()
-                        
-                    }
-                    .alert("WIN", isPresented: $showingAlert) {
-                        Button("OK", role: .cancel) {
-                            sendPostRequest()
-                            resetGame()
-                        }
                     }
                 }else{
                     Spacer()
@@ -293,7 +273,7 @@ struct GameView: View {
                                 .foregroundColor(themeManager.themeColor)
                                 .padding()
                         }else{
-                            Text(resultText)                 
+                            Text(resultText)
                                 .font(.system(size: 25))
                                 .opacity(waitingForRequest ? 0 : 1)
                                 .foregroundColor(themeManager.themeColor)
@@ -318,7 +298,6 @@ struct GameView: View {
                         }
                     }
                     Spacer()
-                    
                 }
             }
         }
@@ -329,11 +308,7 @@ struct GameView: View {
         .onAppear {
             if(tutorial){
                 viewModel.startTutorialMode()
-            }else{
-                resetGame()
-
             }
-             
             gameTimer.startTimer()
             
             let dateFormatter = DateFormatter()
@@ -367,8 +342,6 @@ extension View {
 #endif
     }
 }
-
-
 
 #Preview {
     GameView()

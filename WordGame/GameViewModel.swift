@@ -7,7 +7,7 @@
 
 import Foundation
 
-let GAME_LENGTH = 7
+let GAME_LENGTH = 8
 var HINT_SECONDS = 10
 
 struct Word: Decodable {
@@ -97,7 +97,7 @@ class GameViewModel {
         reset()
     }
     
-    func drawWordHints() -> Word {
+    private func drawWordHints() -> Word {
         guard let selectedWord = words.randomElement() else {
             return Word(word:"cats", hint: "Felines")
         }
@@ -110,7 +110,7 @@ class GameViewModel {
         return selectedWord
     }
     
-    func generateLetters() -> [[String]] {
+    private func generateLetters() -> [[String]] {
         var res = [[String](),[String](),[String](),[String]()]
         for word in gameWords{
             var count = 0
@@ -156,7 +156,7 @@ class GameViewModel {
         startHintCount()
     }
     
-    func resetHints(){
+    private func resetHints(){
         hintState = 0
         hint1 = nil
         hint2 = nil
@@ -164,7 +164,7 @@ class GameViewModel {
         hint4 = nil
     }
     
-    func reset(){
+    private func reset(){
         HINT_SECONDS = 10
 
         wheelLetters = generateLetters()
