@@ -20,9 +20,9 @@ typealias Puzzle = [Word]
 class GameViewModel {
     private var practiceMode = false
     private var tutorialMode = false
-    static let shared = GameViewModel()
     private var words = [Word]()
     private var solvedWords = [String]()
+    private var puzzles = [[Word]]()
     var questionIndex = 0
     
     var letter1: String = ""
@@ -59,20 +59,7 @@ class GameViewModel {
             do {
                 let data = try Data(contentsOf: url)
                 let decoder = JSONDecoder()
-                let puzzles = try decoder.decode([[Word]].self, from: data)
-                let currentDate = Date()
-
-                // Create a calendar instance
-                let calendar = Calendar.current
-
-                // Get the day of the year
-                if let dayOfYear = calendar.ordinality(of: .day, in: .year, for: currentDate) {
-                    gameWords = puzzles[dayOfYear % puzzles.count]
-
-                } else {
-                    print("Error calculating day of the year")
-                }
-                
+                puzzles = try decoder.decode([[Word]].self, from: data)
             } catch {
                 print("Error decoding JSON: \(error)")
             }
@@ -165,19 +152,7 @@ class GameViewModel {
     }
     
     private func reset(){
-        HINT_SECONDS = 10
-
-        wheelLetters = generateLetters()
-        letter1 = wheelLetters[0][0]
-        letter2 = wheelLetters[1][0]
-        letter3 = wheelLetters[2][0]
-        letter4 = wheelLetters[3][0]
-        
-        resetHints()
-        
-        questionIndex = 0
-        solvedWords = [String]()
-        startHintCount()        
+     
     }
     
     func submitWord() -> Bool{
@@ -218,7 +193,18 @@ class GameViewModel {
         }
     }
     
+    private func resetState(){
+        resetHints()
+        questionIndex = 0
+        solvedWords = [String]()
+        startHintCount()
+    }
+    
     func startTutorialMode(){
+        resetState()
+        
+        HINT_SECONDS = 5
+
         tutorialMode = true
         gameWords = [
             Word(word:"word", hint:"Scroll the letters to find the passWORD. Then submit."),
@@ -231,11 +217,31 @@ class GameViewModel {
         letter2 = wheelLetters[1][0]
         letter3 = wheelLetters[2][0]
         letter4 = wheelLetters[3][0]
+    }
+    
+    func startDailyMode(){
+        resetState()
+
+        HINT_SECONDS = 10
         
-        HINT_SECONDS = 5
+        let currentDate = Date()
+        let calendar = Calendar.current
+        if let dayOfYear = calendar.ordinality(of: .day, in: .year, for: currentDate) {
+            gameWords = puzzles[dayOfYear % puzzles.count]
+        } else {
+            print("Error calculating day of the year")
+        }
+
+        wheelLetters = generateLetters()
+        letter1 = wheelLetters[0][0]
+        letter2 = wheelLetters[1][0]
+        letter3 = wheelLetters[2][0]
+        letter4 = wheelLetters[3][0]
     }
     
     func startPracticeMode(){
+        resetState()
+
         practiceMode = true
         gameWords = [Word]()
         
@@ -243,7 +249,13 @@ class GameViewModel {
             gameWords.append(drawWordHints())
         }
         
-        reset()
+        HINT_SECONDS = 10
+
+        wheelLetters = generateLetters()
+        letter1 = wheelLetters[0][0]
+        letter2 = wheelLetters[1][0]
+        letter3 = wheelLetters[2][0]
+        letter4 = wheelLetters[3][0]
     }
 }
 

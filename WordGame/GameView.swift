@@ -24,6 +24,7 @@ struct GameView: View {
     @State private var waitingForRequest = false
     @State private var gameOver = false
     @State private var requestError = false
+    @State private var puzzleName = ""
     
     @AppStorage("top10") private var top10Finishes = 0
     @AppStorage("top100") private var top100Finishes = 0
@@ -66,7 +67,8 @@ struct GameView: View {
     
     func sendPostRequest() {
         guard let url = URL(string: "https://us-central1-lexi-word-game.cloudfunctions.net/updatePuzzleScore") else {
-            print("Invalid URL")
+            requestError = true
+            waitingForRequest = false
             return
         }
         
@@ -224,6 +226,9 @@ struct GameView: View {
                                     viewModel.startHintCount()
                                     if(viewModel.gameProgress >= 1.0){
                                         gameTimer.stopTimer()
+                                        if(tutorial){
+                                            tutorial = false
+                                        }
                                         sendPostRequest()
                                         waitingForRequest = true
                                         withAnimation{
@@ -248,15 +253,10 @@ struct GameView: View {
                 }else{
                     Spacer()
                     VStack{
-                        if(tutorial){
-                            Text("Tutorial Puzzle")
-                                .font(.system(size: 25))
-                                .foregroundColor(themeManager.themeColor)
-                        }else{
-                            Text("\(lastGameDate) Puzzle")
-                                .font(.system(size: 25))
-                                .foregroundColor(themeManager.themeColor)
-                        }
+                        Text("\(puzzleName) Puzzle")
+                            .font(.system(size: 25))
+                            .foregroundColor(themeManager.themeColor)
+                        
                         Text("Time: \(gameTimer.secondsElapsed.formatted())s")
                             .font(.system(size: 25))
                             .foregroundColor(themeManager.themeColor)
@@ -306,24 +306,26 @@ struct GameView: View {
         .animation(.linear(duration: 1), value: waitingForRequest)
         .animation(.linear(duration: 1.6), value: newRecord)
         .onAppear {
-            if(tutorial){
-                viewModel.startTutorialMode()
-            }
-            gameTimer.startTimer()
-            
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MMM d"
             let today = dateFormatter.string(from: Date())
-            if(lastGameDate != today){
+            
+            if(tutorial){
+                puzzleName = "Tutorial"
+                viewModel.startTutorialMode()
+            }else if(lastGameDate != today){
+                puzzleName = lastGameDate
                 lastGameDate = today
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    loading = false
-                }
+                viewModel.startDailyMode()
             }else{
+                puzzleName = "Practice"
                 practiceMode = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
-                    loading = false
-                }
+                viewModel.startPracticeMode()
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                loading = false
+                gameTimer.startTimer()
             }
         }
     }
