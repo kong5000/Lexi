@@ -11,7 +11,7 @@ struct ScoreboardItem: View {
     var label: String
     var value: String
     let themeManager = ThemeManager()
-
+    
     var body: some View {
         HStack {
             Text(label)
@@ -56,7 +56,7 @@ struct InfoView: View {
         
         return "\(number)\(numberSuffix)"
     }
-
+    
     var body: some View {
         ZStack {
             themeManager.accentColor.ignoresSafeArea()
@@ -72,14 +72,12 @@ struct InfoView: View {
                 }.padding(.bottom, 100)
                 ScoreboardItem(label: "Version", value: "1.0")
                 ScoreboardItem(label: "Developer", value: " K. Ong")
-
-                Link("Contact", destination: URL(string: "https://www.linkedin.com/in/keith-ong-8685a513b/")!)
-                               .foregroundColor(.blue)
-                               .font(.system(size: 25))
-                               .padding()
-                Spacer()
                 
-           
+                Link("Contact", destination: URL(string: "https://www.linkedin.com/in/keith-ong-8685a513b/")!)
+                    .foregroundColor(.blue)
+                    .font(.system(size: 25))
+                    .padding()
+                Spacer()
             }.padding()
         }
     }

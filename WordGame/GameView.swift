@@ -73,7 +73,7 @@ struct GameView: View {
         }
         
         let payload: [String: Any] = [
-            "puzzleId": lastGameDate,
+            "puzzleId": puzzleName,
             "score": gameTimer.secondsElapsed,
             "userId": "userid123abc"
         ]
@@ -133,6 +133,7 @@ struct GameView: View {
                             .font(.system(size: 25))
                             .foregroundColor(themeManager.themeColor)
                             .padding()
+                            .padding(.bottom, 100)
                     }
                     else if(practiceMode){
                         VStack {
@@ -148,6 +149,7 @@ struct GameView: View {
                                 .font(.system(size: 25))
                                 .foregroundColor(themeManager.themeColor)
                                 .padding()
+                                .padding(.bottom, 100)
                         }
                         .onAppear {
                             updateCountdown()
@@ -162,6 +164,7 @@ struct GameView: View {
                             .foregroundColor(themeManager.themeColor)
                             .frame(height: 120)
                             .padding()
+                            .padding(.bottom, 100)
                     }
                 }
             }else{
@@ -229,8 +232,10 @@ struct GameView: View {
                                         if(tutorial){
                                             tutorial = false
                                         }
-                                        sendPostRequest()
-                                        waitingForRequest = true
+                                        if(!practiceMode){
+                                            sendPostRequest()
+                                            waitingForRequest = true
+                                        }
                                         withAnimation{
                                             gameOver = true
                                         }
@@ -314,8 +319,8 @@ struct GameView: View {
                 puzzleName = "Tutorial"
                 viewModel.startTutorialMode()
             }else if(lastGameDate != today){
-                puzzleName = lastGameDate
                 lastGameDate = today
+                puzzleName = today
                 viewModel.startDailyMode()
             }else{
                 puzzleName = "Practice"
@@ -326,6 +331,7 @@ struct GameView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 loading = false
                 gameTimer.startTimer()
+                viewModel.startHintCount()
             }
         }
     }

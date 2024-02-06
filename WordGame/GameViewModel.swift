@@ -197,7 +197,6 @@ class GameViewModel {
         resetHints()
         questionIndex = 0
         solvedWords = [String]()
-        startHintCount()
     }
     
     func startTutorialMode(){
