@@ -266,25 +266,24 @@ struct GameView: View {
                             .font(.system(size: 25))
                             .foregroundColor(themeManager.themeColor)
                             .padding()
-                        if(waitingForRequest){ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: themeManager.themeColor))
-                                .scaleEffect(2)
-                                .padding()
-                                .opacity(waitingForRequest ? 1 : 0)
-                        }
                         if(requestError && !tutorial){
                             Text("Sorry, could not connect to our server for your daily ranking").font(.system(size: 25))
                                 .opacity(waitingForRequest ? 0 : 1)
                                 .foregroundColor(themeManager.themeColor)
                                 .padding()
                         }else{
+                            Text("Loading Results...")
+                                .font(.system(size: 25))
+                                .opacity(waitingForRequest ? 1 : 0)
+                                .foregroundColor(themeManager.themeColor)
+                                .frame(height: 50)
                             Text(resultText)
                                 .font(.system(size: 25))
                                 .opacity(waitingForRequest ? 0 : 1)
                                 .foregroundColor(themeManager.themeColor)
                                 .frame(height: 50)
+                                .fixedSize(horizontal: false, vertical: true)
                                 .padding(.bottom, 100)
-                            
                             if(newRecord && !tutorial){
                                 Text("New Record!")
                                     .font(.system(size: 35))
@@ -308,7 +307,7 @@ struct GameView: View {
         }
         .animation(.easeInOut(duration: 1.25), value: loading)
         .animation(.linear(duration: 3.25), value: gameOver)
-        .animation(.linear(duration: 1), value: waitingForRequest)
+        .animation(.easeInOut(duration: 1), value: waitingForRequest)
         .animation(.linear(duration: 1.6), value: newRecord)
         .onAppear {
             let dateFormatter = DateFormatter()

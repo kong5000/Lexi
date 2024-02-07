@@ -20,7 +20,7 @@ struct ContentView: View {
                 themeManager.accentColor.ignoresSafeArea()
                 VStack{
                     Spacer()
-                    Text("L E X I")
+                    Text("L E X E")
                         .font(.system(size: 90))
                         .foregroundColor(themeManager.themeColor)
                         .padding(.bottom, 70)

@@ -212,6 +212,8 @@ class GameViewModel {
         ]
 
         wheelLetters = [["W","T","H"],["Z","O","I"],["R","N","M"],["D","T","E"] ]
+
+
         letter1 = wheelLetters[0][0]
         letter2 = wheelLetters[1][0]
         letter3 = wheelLetters[2][0]
