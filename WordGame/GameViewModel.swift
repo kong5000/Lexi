@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 let GAME_LENGTH = 8
 var HINT_SECONDS = 10
@@ -17,7 +18,15 @@ struct Word: Decodable {
 
 typealias Puzzle = [Word]
 
-class GameViewModel {
+class GameViewModel: ObservableObject {
+    @AppStorage("top10") private var top10Finishes = 0
+    @AppStorage("top100") private var top100Finishes = 0
+    @AppStorage("dailyFinishes") private var dailyFinishes = 0
+    @AppStorage("topFinish") private var topFinish = 999999
+    @AppStorage("tutorial") private var tutorial = true
+    
+    var score : Score?
+    private let service = GameService()
     private var practiceMode = false
     private var tutorialMode = false
     private var words = [Word]()
@@ -42,6 +51,15 @@ class GameViewModel {
     var hintCountDownTimer: Timer?
     var hintCountDown = 0
     
+    @Published var requestError = false
+    @Published var waitingForRequest = false
+        
+    @Published var place = 0
+    @Published var players = 0
+    @Published var resultText = ""
+    @Published var newRecord = false
+
+    
     var hintProgress: Double {
         Double(hintCountDown) / Double(HINT_SECONDS)
     }
@@ -49,7 +67,7 @@ class GameViewModel {
     var gameProgress: Double {
         Double(solvedWords.count) / Double(gameWords.count)
     }
-
+    
     var wheelLetters = [[String](),[String](),[String](),[String]()]
     
     var gameWords = [Word]()
@@ -127,18 +145,18 @@ class GameViewModel {
     
     func generateHint(){
         switch hintState {
-            case 0:
-                hint1 = ("\(gameWords[questionIndex].word[0])".capitalized)
-            case 1:
-                hint2 = ("\(gameWords[questionIndex].word[1])".capitalized)
-            case 2:
-                hint3 = ("\(gameWords[questionIndex].word[2])".capitalized)
-            case 3:
-                hint4 = ("\(gameWords[questionIndex].word[3])".capitalized)
-            default:
-                print("")
-            }
-            hintState += 1
+        case 0:
+            hint1 = ("\(gameWords[questionIndex].word[0])".capitalized)
+        case 1:
+            hint2 = ("\(gameWords[questionIndex].word[1])".capitalized)
+        case 2:
+            hint3 = ("\(gameWords[questionIndex].word[2])".capitalized)
+        case 3:
+            hint4 = ("\(gameWords[questionIndex].word[3])".capitalized)
+        default:
+            print("")
+        }
+        hintState += 1
         
         startHintCount()
     }
@@ -152,7 +170,7 @@ class GameViewModel {
     }
     
     private func reset(){
-     
+        
     }
     
     func submitWord() -> Bool{
@@ -180,7 +198,7 @@ class GameViewModel {
         hintCountDownTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
             if self.hintCountDown < HINT_SECONDS - 1 {
                 self.hintCountDown += 1
-
+                
             } else {
                 self.hintCountDown += 1
                 self.hintButtonActive = true
@@ -203,16 +221,16 @@ class GameViewModel {
         resetState()
         
         HINT_SECONDS = 5
-
+        
         tutorialMode = true
         gameWords = [
             Word(word:"word", hint:"Scroll the letters to find the passWORD. Then submit."),
             Word(word:"hint", hint:"Get a free letter with the HINT button"),
             Word(word:"time", hint:"Try to solve the daily puzzle in the best TIME")
         ]
-
+        
         wheelLetters = [["W","T","H"],["Z","O","I"],["R","N","M"],["D","T","E"] ]
-
+        
         letter1 = wheelLetters[0][0]
         letter2 = wheelLetters[1][0]
         letter3 = wheelLetters[2][0]
@@ -221,7 +239,7 @@ class GameViewModel {
     
     func startDailyMode(){
         resetState()
-
+        
         HINT_SECONDS = 10
         
         let currentDate = Date()
@@ -231,7 +249,7 @@ class GameViewModel {
         } else {
             print("Error calculating day of the year")
         }
-
+        
         wheelLetters = generateLetters()
         letter1 = wheelLetters[0][0]
         letter2 = wheelLetters[1][0]
@@ -241,7 +259,7 @@ class GameViewModel {
     
     func startPracticeMode(){
         resetState()
-
+        
         practiceMode = true
         gameWords = [Word]()
         
@@ -250,13 +268,66 @@ class GameViewModel {
         }
         
         HINT_SECONDS = 10
-
+        
         wheelLetters = generateLetters()
         letter1 = wheelLetters[0][0]
         letter2 = wheelLetters[1][0]
         letter3 = wheelLetters[2][0]
         letter4 = wheelLetters[3][0]
     }
+    
+    func ordinalNumber(_ number: Int) -> String {
+        var numberSuffix = ""
+        
+        switch number % 10 {
+        case 1:
+            numberSuffix = "st"
+        case 2:
+            numberSuffix = "nd"
+        case 3:
+            numberSuffix = "rd"
+        default:
+            numberSuffix = "th"
+        }
+        
+        // Special case for numbers ending in 11, 12, and 13
+        if (number % 100) / 10 == 1 {
+            numberSuffix = "th"
+        }
+        
+        return "\(number)\(numberSuffix)"
+    }
+    
+    func sendScore(payload:[String:Any]){
+        self.waitingForRequest = true
+        
+        service.sendPostRequest(payload: payload){newScore, error in
+            if let newScore = newScore {
+                DispatchQueue.main.async{
+                    self.score = newScore
+                    self.requestError = false
+                    self.resultText = "\(self.ordinalNumber(newScore.place)) out of \(newScore.players) players"
+                    if(newScore.place <= 10){
+                        self.top10Finishes += 1
+                    }else if(newScore.place <= 100){
+                        self.top100Finishes += 1
+                    }
+                    self.dailyFinishes += 1
+                    if(newScore.place < self.topFinish){
+                        self.topFinish = newScore.place
+                        self.newRecord = true
+                    }
+                    self.waitingForRequest = false
+                }
+            }else{
+                DispatchQueue.main.async{
+                    self.requestError = true
+                    self.waitingForRequest = false
+                }
+            }
+        }
+    }
+    
 }
 
 extension String {

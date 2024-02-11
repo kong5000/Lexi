@@ -11,19 +11,13 @@ import AVFoundation
 struct GameView: View {
     @State private var showingAlert = false
     @State private var loading = true
-    @State private var viewModel = GameViewModel()
+    @StateObject private var viewModel = GameViewModel()
     @StateObject private var gameTimer = GameTimer()
     @StateObject private var themeManager = ThemeManager()
     @AppStorage("lastGameDate") private var lastGameDate = "Jan 01"
     @State private var timeRemaining = ""
     @State private var practiceMode = false
-    @State private var resultText = ""
-    @State private var place = 0
-    @State private var players = 0
-    @State private var newRecord = false
-    @State private var waitingForRequest = false
     @State private var gameOver = false
-    @State private var requestError = false
     @State private var puzzleName = ""
     
     @AppStorage("top10") private var top10Finishes = 0
@@ -41,82 +35,6 @@ struct GameView: View {
                 timeRemaining = String(format: "%02dh %02dm %02ds", hours, minutes, seconds)
             }
         }
-    }
-    
-    func ordinalNumber(_ number: Int) -> String {
-        var numberSuffix = ""
-        
-        switch number % 10 {
-        case 1:
-            numberSuffix = "st"
-        case 2:
-            numberSuffix = "nd"
-        case 3:
-            numberSuffix = "rd"
-        default:
-            numberSuffix = "th"
-        }
-        
-        // Special case for numbers ending in 11, 12, and 13
-        if (number % 100) / 10 == 1 {
-            numberSuffix = "th"
-        }
-        
-        return "\(number)\(numberSuffix)"
-    }
-    
-    func sendPostRequest() {
-        guard let url = URL(string: "https://us-central1-lexi-word-game.cloudfunctions.net/updatePuzzleScore") else {
-            requestError = true
-            waitingForRequest = false
-            return
-        }
-        
-        let payload: [String: Any] = [
-            "puzzleId": puzzleName,
-            "score": gameTimer.secondsElapsed,
-            "userId": "userid123abc"
-        ]
-        
-        let jsonData = try? JSONSerialization.data(withJSONObject: payload)
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.httpBody = jsonData
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print("Error: \(error.localizedDescription)")
-                requestError = true
-                waitingForRequest = false
-            }
-            
-            if let data = data {
-                do {
-                    let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                    place = jsonResponse?["place"] as! Int
-                    players = jsonResponse?["totalPlayers"] as! Int
-                    waitingForRequest = false
-                    resultText = "\(ordinalNumber(place)) out of \(players) players"
-                    
-                    if(place <= 10){
-                        top10Finishes += 1
-                    }else if(place <= 100){
-                        top100Finishes += 1
-                    }
-                    dailyFinishes += 1
-                    if(place < topFinish){
-                        topFinish = place
-                        newRecord = true
-                    }
-                } catch {
-                    print("Error parsing JSON: \(error.localizedDescription)")
-                    requestError = true
-                    waitingForRequest = false
-                }
-            }
-        }.resume()
     }
     
     var body: some View {
@@ -233,8 +151,11 @@ struct GameView: View {
                                             tutorial = false
                                         }
                                         if(!practiceMode){
-                                            sendPostRequest()
-                                            waitingForRequest = true
+                                            let payload: [String: Any] = [
+                                                "puzzleId": puzzleName,
+                                                "score": gameTimer.secondsElapsed,
+                                            ]
+                                            viewModel.sendScore(payload:payload)
                                         }
                                         withAnimation{
                                             gameOver = true
@@ -266,28 +187,28 @@ struct GameView: View {
                             .font(.system(size: 25))
                             .foregroundColor(themeManager.themeColor)
                             .padding()
-                        if(requestError && !tutorial){
+                        if(viewModel.requestError && !tutorial){
                             Text("Sorry, could not connect to our server for your daily ranking").font(.system(size: 25))
-                                .opacity(waitingForRequest ? 0 : 1)
+                                .opacity(viewModel.waitingForRequest ? 0 : 1)
                                 .foregroundColor(themeManager.themeColor)
                                 .padding()
                         }else{
                             Text("Loading Results...")
                                 .font(.system(size: 25))
-                                .opacity(waitingForRequest ? 1 : 0)
+                                .opacity(viewModel.waitingForRequest ? 1 : 0)
                                 .foregroundColor(themeManager.themeColor)
                                 .frame(height: 50)
-                            Text(resultText)
+                            Text(viewModel.resultText)
                                 .font(.system(size: 25))
-                                .opacity(waitingForRequest ? 0 : 1)
+                                .opacity(viewModel.waitingForRequest ? 0 : 1)
                                 .foregroundColor(themeManager.themeColor)
                                 .frame(height: 50)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .padding(.bottom, 100)
-                            if(newRecord && !tutorial){
+                            if(viewModel.newRecord && !tutorial){
                                 Text("New Record!")
                                     .font(.system(size: 35))
-                                    .opacity(waitingForRequest ? 0 : 1)
+                                    .opacity(viewModel.waitingForRequest ? 0 : 1)
                                     .foregroundColor(themeManager.themeColor)
                                     .frame(height: 50)
                                     .padding(.bottom, 100)
@@ -295,7 +216,7 @@ struct GameView: View {
                             if(tutorial){
                                 Text("Daily puzzle now available!")
                                     .font(.system(size: 30))
-                                    .opacity(waitingForRequest ? 0 : 1)
+                                    .opacity(viewModel.waitingForRequest ? 0 : 1)
                                     .foregroundColor(themeManager.themeColor)
                                     .padding()
                             }
@@ -307,8 +228,8 @@ struct GameView: View {
         }
         .animation(.easeInOut(duration: 1.25), value: loading)
         .animation(.linear(duration: 3.25), value: gameOver)
-        .animation(.easeInOut(duration: 1), value: waitingForRequest)
-        .animation(.linear(duration: 1.6), value: newRecord)
+        .animation(.easeInOut(duration: 1), value: viewModel.waitingForRequest)
+        .animation(.linear(duration: 1.6), value: viewModel.newRecord)
         .onAppear {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MMM d"
