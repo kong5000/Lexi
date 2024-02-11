@@ -45,27 +45,17 @@ struct GameView: View {
                     if(tutorial){
                         Text("Welcome!")
                             .font(.system(size: 35))
-                            .foregroundColor(themeManager.themeColor)
                             .padding()
                         Text("Loading Tutorial Puzzle")
-                            .font(.system(size: 25))
-                            .foregroundColor(themeManager.themeColor)
                             .padding()
                             .padding(.bottom, 100)
                     }
                     else if(practiceMode){
                         VStack {
                             Text("New daily puzzle in:")
-                                .font(.system(size: 25))
-                                .foregroundColor(themeManager.themeColor)
                             Text(timeRemaining)
                                 .font(.system(size: 25).monospacedDigit())
-                                .foregroundColor(themeManager.themeColor)
-                                .font(.system(size: 25))
-                                .foregroundColor(themeManager.themeColor)
                             Text("Loading practice puzzle")
-                                .font(.system(size: 25))
-                                .foregroundColor(themeManager.themeColor)
                                 .padding()
                                 .padding(.bottom, 100)
                         }
@@ -78,8 +68,6 @@ struct GameView: View {
                         }
                     }else{
                         Text("Loading the daily puzzle")
-                            .font(.system(size: 25))
-                            .foregroundColor(themeManager.themeColor)
                             .frame(height: 120)
                             .padding()
                             .padding(.bottom, 100)
@@ -91,18 +79,14 @@ struct GameView: View {
                         if(tutorial){
                             Text("Tutorial")
                                 .font(.system(size: 25).monospacedDigit())
-                                .foregroundColor(themeManager.themeColor)
                         }else{
                             Text("\(gameTimer.secondsElapsed, specifier: "%.1f")")
                                 .font(.system(size: 25).monospacedDigit())
-                                .foregroundColor(themeManager.themeColor)
                         }
                         ProgressView(value: viewModel.gameProgress)
                             .tint(themeManager.themeColor)
                             .padding()
                         Text(viewModel.gameWords[viewModel.questionIndex].hint)
-                            .font(.system(size: 25))
-                            .foregroundColor(themeManager.themeColor)
                             .frame(height: 120)
                             .padding()
                         
@@ -180,28 +164,19 @@ struct GameView: View {
                     Spacer()
                     VStack{
                         Text("\(puzzleName) Puzzle")
-                            .font(.system(size: 25))
-                            .foregroundColor(themeManager.themeColor)
-                        
                         Text("Time: \(gameTimer.secondsElapsed.formatted())s")
-                            .font(.system(size: 25))
-                            .foregroundColor(themeManager.themeColor)
                             .padding()
+                        
                         if(viewModel.requestError && !tutorial){
-                            Text("Sorry, could not connect to our server for your daily ranking").font(.system(size: 25))
+                            Text("Sorry, could not connect to our server for your daily ranking")
                                 .opacity(viewModel.waitingForRequest ? 0 : 1)
-                                .foregroundColor(themeManager.themeColor)
                                 .padding()
                         }else{
                             Text("Loading Results...")
-                                .font(.system(size: 25))
                                 .opacity(viewModel.waitingForRequest ? 1 : 0)
-                                .foregroundColor(themeManager.themeColor)
                                 .frame(height: 50)
                             Text(viewModel.resultText)
-                                .font(.system(size: 25))
                                 .opacity(viewModel.waitingForRequest ? 0 : 1)
-                                .foregroundColor(themeManager.themeColor)
                                 .frame(height: 50)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .padding(.bottom, 100)
@@ -209,7 +184,6 @@ struct GameView: View {
                                 Text("New Record!")
                                     .font(.system(size: 35))
                                     .opacity(viewModel.waitingForRequest ? 0 : 1)
-                                    .foregroundColor(themeManager.themeColor)
                                     .frame(height: 50)
                                     .padding(.bottom, 100)
                             }
@@ -217,7 +191,6 @@ struct GameView: View {
                                 Text("Daily puzzle now available!")
                                     .font(.system(size: 30))
                                     .opacity(viewModel.waitingForRequest ? 0 : 1)
-                                    .foregroundColor(themeManager.themeColor)
                                     .padding()
                             }
                         }
@@ -226,6 +199,8 @@ struct GameView: View {
                 }
             }
         }
+        .font(.system(size: 25))
+        .foregroundColor(themeManager.themeColor)
         .animation(.easeInOut(duration: 1.25), value: loading)
         .animation(.linear(duration: 3.25), value: gameOver)
         .animation(.easeInOut(duration: 1), value: viewModel.waitingForRequest)

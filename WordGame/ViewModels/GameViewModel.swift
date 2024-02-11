@@ -22,11 +22,9 @@ class GameViewModel: ObservableObject {
     private let networkingService = APIService()
     
     private var hintSeconds = 10
-
-    private var previousTopFinish: Int
-
     private var practiceMode = false
     private var tutorialMode = false
+    
     private var words = [Word]()
     private var solvedWords = [String]()
     private var puzzles = [[Word]]()
@@ -43,20 +41,16 @@ class GameViewModel: ObservableObject {
     var hint4: String? = nil
     
     var hintState: Int = 0
-    
     var hintButtonActive = false
-    
     var hintCountDownTimer: Timer?
     var hintCountDown = 0
     
+    private var previousTopFinish: Int
+    
     @Published var requestError = false
     @Published var waitingForRequest = false
-        
-    @Published var place = 0
-    @Published var players = 0
     @Published var resultText = ""
     @Published var newRecord = false
-
     
     var hintProgress: Double {
         Double(hintCountDown) / Double(hintSeconds)
@@ -97,8 +91,6 @@ class GameViewModel: ObservableObject {
                 }
             }
         }
-        
-        reset()
     }
     
     private func drawWordHints() -> Word {
@@ -166,10 +158,6 @@ class GameViewModel: ObservableObject {
         hint2 = nil
         hint3 = nil
         hint4 = nil
-    }
-    
-    private func reset(){
-        
     }
     
     func submitWord() -> Bool{
@@ -325,7 +313,6 @@ class GameViewModel: ObservableObject {
             }
         }
     }
-    
 }
 
 extension String {
