@@ -38,6 +38,8 @@ class GameViewModel: ObservableObject {
     var hintCountDownTimer: Timer?
     var hintCountDown = 0
     
+    private var hintIndexes = [0,1,2,3]
+    
     private var previousTopFinish: Int
     
     @Published var requestError = false
@@ -128,25 +130,31 @@ class GameViewModel: ObservableObject {
     }
     
     func generateHint(){
-        switch hintState {
-        case 0:
-            hint1 = ("\(gameWords[questionIndex].word[0])".capitalized)
-        case 1:
-            hint2 = ("\(gameWords[questionIndex].word[1])".capitalized)
-        case 2:
-            hint3 = ("\(gameWords[questionIndex].word[2])".capitalized)
-        case 3:
-            hint4 = ("\(gameWords[questionIndex].word[3])".capitalized)
-        default:
-            print("")
+        if !hintIndexes.isEmpty {
+            let randomIndex = Int.random(in: 0..<hintIndexes.count)
+            let randomHint = hintIndexes[randomIndex]
+            hintIndexes.remove(at: randomIndex)
+            
+            switch randomHint {
+            case 0:
+                hint1 = ("\(gameWords[questionIndex].word[0])".capitalized)
+            case 1:
+                hint2 = ("\(gameWords[questionIndex].word[1])".capitalized)
+            case 2:
+                hint3 = ("\(gameWords[questionIndex].word[2])".capitalized)
+            case 3:
+                hint4 = ("\(gameWords[questionIndex].word[3])".capitalized)
+            default:
+                print("")
+            }
+            hintState += 1
+            
+            startHintCount()
         }
-        hintState += 1
-        
-        startHintCount()
     }
     
     private func resetHints(){
-        hintState = 0
+        hintIndexes = [0,1,2,3]
         hint1 = nil
         hint2 = nil
         hint3 = nil
