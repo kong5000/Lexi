@@ -10,13 +10,6 @@ import SwiftUI
 
 let GAME_LENGTH = 8
 
-struct Word: Decodable {
-    var word: String
-    var hint: String
-}
-
-typealias Puzzle = [Word]
-
 class GameViewModel: ObservableObject {
     private let localDataService = LocalDataService()
     private let networkingService = APIService()

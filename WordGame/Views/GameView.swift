@@ -41,165 +41,18 @@ struct GameView: View {
         ZStack{
             themeManager.accentColor.ignoresSafeArea()
             if(loading){
-                VStack {
-                    if(tutorial){
-                        Text("Welcome!")
-                            .font(.system(size: 35))
-                            .padding()
-                        Text("Loading Tutorial Puzzle")
-                            .padding()
-                            .padding(.bottom, 100)
-                    }
-                    else if(practiceMode){
-                        VStack {
-                            Text("New daily puzzle in:")
-                            Text(timeRemaining)
-                                .font(.system(size: 25).monospacedDigit())
-                            Text("Loading practice puzzle")
-                                .padding()
-                                .padding(.bottom, 100)
-                        }
-                        .onAppear {
-                            updateCountdown()
-                            // Update the countdown every second
-                            Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                                updateCountdown()
-                            }
-                        }
-                    }else{
-                        Text("Loading the daily puzzle")
-                            .frame(height: 120)
-                            .padding()
-                            .padding(.bottom, 100)
-                    }
-                }
+                loadingView
             }else{
                 if(!gameOver){
-                    VStack {
-                        if(tutorial){
-                            Text("Tutorial")
-                                .font(.system(size: 25).monospacedDigit())
-                        }else{
-                            Text("\(gameTimer.secondsElapsed, specifier: "%.1f")")
-                                .font(.system(size: 25).monospacedDigit())
-                        }
-                        ProgressView(value: viewModel.gameProgress)
-                            .tint(themeManager.themeColor)
-                            .padding()
-                        Text(viewModel.gameWords[viewModel.questionIndex].hint)
-                            .frame(height: 120)
-                            .padding()
-                        
-                        HStack(alignment: .top){
-                            VStack{
-                                Wheel(selectedLetter: $viewModel.letter1, letters: viewModel.wheelLetters[0], hint: $viewModel.hint1)
-                                Spacer()
-                            }
-                            VStack{
-                                Wheel(selectedLetter: $viewModel.letter2, letters: viewModel.wheelLetters[1], hint: $viewModel.hint2)
-                                Spacer()
-                            }
-                            VStack{
-                                Wheel(selectedLetter: $viewModel.letter3, letters: viewModel.wheelLetters[2], hint: $viewModel.hint3)
-                                Spacer()
-                            }
-                            VStack{
-                                Wheel(selectedLetter: $viewModel.letter4, letters: viewModel.wheelLetters[3], hint: $viewModel.hint4)
-                                Spacer()
-                            }
-                        }
-                        .frame(maxHeight: .infinity)
-                        .padding(.top,50)
-                        .padding(.bottom, 50)
-                        
-                        HStack{
-                            Spacer()
-                            Button(action: {
-                                if viewModel.hintButtonActive {
-                                    viewModel.generateHint()
-                                    AudioServicesPlaySystemSound(1114)
-                                }
-                            }) {
-                                HintTimer(progress: viewModel.hintProgress)
-                            }
-                            .disabled(!viewModel.hintButtonActive)
-                            .padding()
-                            Spacer()
-                            Button{
-                                if(viewModel.submitWord()){
-                                    AudioServicesPlaySystemSound(1305)
-                                    viewModel.startHintCount()
-                                    if(viewModel.gameProgress >= 1.0){
-                                        gameTimer.stopTimer()
-                                        if(tutorial){
-                                            tutorial = false
-                                        }
-                                        if(!practiceMode){
-                                            let payload: [String: Any] = [
-                                                "puzzleId": puzzleName,
-                                                "score": gameTimer.secondsElapsed,
-                                            ]
-                                            viewModel.sendScore(payload:payload)
-                                        }
-                                        withAnimation{
-                                            gameOver = true
-                                        }
-                                    }
-                                }else{
-                                    AudioServicesPlaySystemSound(1306)
-                                }
-                            }label:{
-                                Text("SUBMIT")
-                                    .padding()
-                                    .foregroundColor(themeManager.accentColor)
-                                    .background(themeManager.themeColor)
-                                    .font(.system(size: 22))
-                                    .clipShape(Capsule())
-                            }.padding()
-                            Spacer()
-                        }
-                        .additionalPaddingForiPad()
-                    }
+                    playView
                 }else{
                     Spacer()
-                    VStack{
-                        Text("\(puzzleName) Puzzle")
-                        Text("Time: \(gameTimer.secondsElapsed.formatted())s")
-                            .padding()
-                        
-                        if(viewModel.requestError && !tutorial){
-                            Text("Sorry, could not connect to our server for your daily ranking")
-                                .opacity(viewModel.waitingForRequest ? 0 : 1)
-                                .padding()
-                        }else{
-                            Text("Loading Results...")
-                                .opacity(viewModel.waitingForRequest ? 1 : 0)
-                                .frame(height: 50)
-                            Text(viewModel.resultText)
-                                .opacity(viewModel.waitingForRequest ? 0 : 1)
-                                .frame(height: 50)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .padding(.bottom, 100)
-                            if(viewModel.newRecord && !tutorial){
-                                Text("New Record!")
-                                    .font(.system(size: 35))
-                                    .opacity(viewModel.waitingForRequest ? 0 : 1)
-                                    .frame(height: 50)
-                                    .padding(.bottom, 100)
-                            }
-                            if(tutorial){
-                                Text("Daily puzzle now available!")
-                                    .font(.system(size: 30))
-                                    .opacity(viewModel.waitingForRequest ? 0 : 1)
-                                    .padding()
-                            }
-                        }
-                    }
+                    gameOverView
                     Spacer()
                 }
             }
         }
-        .font(.system(size: 25))
+        .modifier(MediumText())
         .foregroundColor(themeManager.themeColor)
         .animation(.easeInOut(duration: 1.25), value: loading)
         .animation(.linear(duration: 3.25), value: gameOver)
@@ -227,6 +80,165 @@ struct GameView: View {
                 loading = false
                 gameTimer.startTimer()
                 viewModel.startHintCount()
+            }
+        }
+    }
+    
+    var loadingView: some View {
+        VStack {
+            if(tutorial){
+                Text("Welcome!")
+                    .modifier(TitleText())
+                    .padding()
+                Text("Loading Tutorial Puzzle")
+                    .padding()
+                    .padding(.bottom, 100)
+            }
+            else if(practiceMode){
+                VStack {
+                    Text("New daily puzzle in:")
+                    Text(timeRemaining)
+                        .modifier(NumberCounter())
+                    Text("Loading practice puzzle")
+                        .padding()
+                        .padding(.bottom, 100)
+                }
+                .onAppear {
+                    updateCountdown()
+                    // Update the countdown every second
+                    Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                        updateCountdown()
+                    }
+                }
+            }else{
+                Text("Loading the daily puzzle")
+                    .frame(height: 120)
+                    .padding()
+                    .padding(.bottom, 100)
+            }
+        }
+    }
+    
+    var playView: some View {
+        VStack {
+            if(tutorial){
+                Text("Tutorial")
+                    .modifier(NumberCounter())
+            }else{
+                Text("\(gameTimer.secondsElapsed, specifier: "%.1f")")
+                    .modifier(NumberCounter())
+            }
+            ProgressView(value: viewModel.gameProgress)
+                .tint(themeManager.themeColor)
+                .padding()
+            Text(viewModel.gameWords[viewModel.questionIndex].hint)
+                .frame(height: 120)
+                .padding()
+            
+            HStack(alignment: .top){
+                VStack{
+                    Wheel(selectedLetter: $viewModel.letter1, letters: viewModel.wheelLetters[0], hint: $viewModel.hint1)
+                    Spacer()
+                }
+                VStack{
+                    Wheel(selectedLetter: $viewModel.letter2, letters: viewModel.wheelLetters[1], hint: $viewModel.hint2)
+                    Spacer()
+                }
+                VStack{
+                    Wheel(selectedLetter: $viewModel.letter3, letters: viewModel.wheelLetters[2], hint: $viewModel.hint3)
+                    Spacer()
+                }
+                VStack{
+                    Wheel(selectedLetter: $viewModel.letter4, letters: viewModel.wheelLetters[3], hint: $viewModel.hint4)
+                    Spacer()
+                }
+            }
+            .frame(maxHeight: .infinity)
+            .padding(.top,50)
+            .padding(.bottom, 50)
+            
+            HStack{
+                Spacer()
+                Button(action: {
+                    if viewModel.hintButtonActive {
+                        viewModel.generateHint()
+                        AudioServicesPlaySystemSound(1114)
+                    }
+                }) {
+                    HintTimer(progress: viewModel.hintProgress)
+                }
+                .disabled(!viewModel.hintButtonActive)
+                .padding()
+                Spacer()
+                Button{
+                    if(viewModel.submitWord()){
+                        AudioServicesPlaySystemSound(1305)
+                        viewModel.startHintCount()
+                        if(viewModel.gameProgress >= 1.0){
+                            gameTimer.stopTimer()
+                            if(tutorial){
+                                tutorial = false
+                            }
+                            if(!practiceMode){
+                                let payload: [String: Any] = [
+                                    "puzzleId": puzzleName,
+                                    "score": gameTimer.secondsElapsed,
+                                ]
+                                viewModel.sendScore(payload:payload)
+                            }
+                            withAnimation{
+                                gameOver = true
+                            }
+                        }
+                    }else{
+                        AudioServicesPlaySystemSound(1306)
+                    }
+                }label:{
+                    Text("SUBMIT")
+                        .padding()
+                        .foregroundColor(themeManager.accentColor)
+                        .background(themeManager.themeColor)
+                        .font(.system(size: 22))
+                        .clipShape(Capsule())
+                }.padding()
+                Spacer()
+            }
+            .additionalPaddingForiPad()
+        }
+    }
+    
+    var gameOverView: some View {
+        VStack{
+            Text("\(puzzleName) Puzzle")
+            Text("Time: \(gameTimer.secondsElapsed.formatted())s")
+                .padding()
+            
+            if(viewModel.requestError && !tutorial){
+                Text("Sorry, could not connect to our server for your daily ranking")
+                    .opacity(viewModel.waitingForRequest ? 0 : 1)
+                    .padding()
+            }else{
+                Text("Loading Results...")
+                    .opacity(viewModel.waitingForRequest ? 1 : 0)
+                    .frame(height: 50)
+                Text(viewModel.resultText)
+                    .opacity(viewModel.waitingForRequest ? 0 : 1)
+                    .frame(height: 50)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.bottom, 100)
+                if(viewModel.newRecord && !tutorial){
+                    Text("New Record!")
+                        .modifier(TitleText())
+                        .opacity(viewModel.waitingForRequest ? 0 : 1)
+                        .frame(height: 50)
+                        .padding(.bottom, 100)
+                }
+                if(tutorial){
+                    Text("Daily puzzle now available!")
+                        .font(.system(size: 30))
+                        .opacity(viewModel.waitingForRequest ? 0 : 1)
+                        .padding()
+                }
             }
         }
     }
