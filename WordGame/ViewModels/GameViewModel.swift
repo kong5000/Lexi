@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 
 let GAME_LENGTH = 8
-var HINT_SECONDS = 10
 
 struct Word: Decodable {
     var word: String
@@ -19,10 +18,13 @@ struct Word: Decodable {
 typealias Puzzle = [Word]
 
 class GameViewModel: ObservableObject {
-    private var previousTopFinish: Int
-    var score : Score?
-    private let service = GameService()
     private let localDataService = LocalDataService()
+    private let networkingService = APIService()
+    
+    private var hintSeconds = 10
+
+    private var previousTopFinish: Int
+
     private var practiceMode = false
     private var tutorialMode = false
     private var words = [Word]()
@@ -57,7 +59,7 @@ class GameViewModel: ObservableObject {
 
     
     var hintProgress: Double {
-        Double(hintCountDown) / Double(HINT_SECONDS)
+        Double(hintCountDown) / Double(hintSeconds)
     }
     
     var gameProgress: Double {
@@ -193,7 +195,7 @@ class GameViewModel: ObservableObject {
         hintCountDown = 0
         
         hintCountDownTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            if self.hintCountDown < HINT_SECONDS - 1 {
+            if self.hintCountDown < self.hintSeconds - 1 {
                 self.hintCountDown += 1
                 
             } else {
@@ -217,7 +219,7 @@ class GameViewModel: ObservableObject {
     func startTutorialMode(){
         resetState()
         
-        HINT_SECONDS = 5
+        hintSeconds = 5
         
         tutorialMode = true
         gameWords = [
@@ -237,7 +239,7 @@ class GameViewModel: ObservableObject {
     func startDailyMode(){
         resetState()
         
-        HINT_SECONDS = 10
+        hintSeconds = 10
         
         let currentDate = Date()
         let calendar = Calendar.current
@@ -264,7 +266,7 @@ class GameViewModel: ObservableObject {
             gameWords.append(drawWordHints())
         }
         
-        HINT_SECONDS = 10
+        hintSeconds = 10
         
         wheelLetters = generateLetters()
         letter1 = wheelLetters[0][0]
@@ -298,10 +300,9 @@ class GameViewModel: ObservableObject {
     func sendScore(payload:[String:Any]){
         self.waitingForRequest = true
         
-        service.sendPostRequest(payload: payload){newScore, error in
+        networkingService.sendPostRequest(payload: payload){newScore, error in
             if let newScore = newScore {
                 DispatchQueue.main.async{
-                    self.score = newScore
                     self.requestError = false
                     self.resultText = "\(self.ordinalNumber(newScore.place)) out of \(newScore.players) players"
                     if(newScore.place <= 10){

@@ -18,7 +18,7 @@
 		534540FB2B712D9800D5985E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534540FA2B712D9800D5985E /* InfoView.swift */; };
 		534540FD2B7284C300D5985E /* generated_puzzles.json in Resources */ = {isa = PBXBuildFile; fileRef = 534540FC2B7284C300D5985E /* generated_puzzles.json */; };
 		534540FF2B72E95A00D5985E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 534540FE2B72E95A00D5985E /* LaunchScreen.storyboard */; };
-		534541392B7922DF00D5985E /* GameService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534541382B7922DF00D5985E /* GameService.swift */; };
+		534541392B7922DF00D5985E /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534541382B7922DF00D5985E /* APIService.swift */; };
 		5345413B2B792B8000D5985E /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5345413A2B792B8000D5985E /* Score.swift */; };
 		535156D92B6A65A20040E539 /* WordGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535156D82B6A65A20040E539 /* WordGameApp.swift */; };
 		535156DB2B6A65A20040E539 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535156DA2B6A65A20040E539 /* GameView.swift */; };
@@ -61,7 +61,7 @@
 		534540FA2B712D9800D5985E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		534540FC2B7284C300D5985E /* generated_puzzles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = generated_puzzles.json; sourceTree = "<group>"; };
 		534540FE2B72E95A00D5985E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		534541382B7922DF00D5985E /* GameService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameService.swift; sourceTree = "<group>"; };
+		534541382B7922DF00D5985E /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		5345413A2B792B8000D5985E /* Score.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
 		535156D52B6A65A20040E539 /* LEXE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LEXE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		535156D82B6A65A20040E539 /* WordGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGameApp.swift; sourceTree = "<group>"; };
@@ -127,21 +127,11 @@
 			isa = PBXGroup;
 			children = (
 				534540FE2B72E95A00D5985E /* LaunchScreen.storyboard */,
-				535156D82B6A65A20040E539 /* WordGameApp.swift */,
-				5304D7312B6D84A8002BD217 /* ContentView.swift */,
-				5304D7392B6EB289002BD217 /* CustomBackButton.swift */,
 				5304D7372B6EA698002BD217 /* ThemeManager.swift */,
-				5304D72D2B6D7A80002BD217 /* GameTimer.swift */,
-				535156DA2B6A65A20040E539 /* GameView.swift */,
-				534540F82B705AD100D5985E /* SpinnerView.swift */,
-				534540FA2B712D9800D5985E /* InfoView.swift */,
-				535157082B6A95100040E539 /* GameViewModel.swift */,
-				53AD21902B793CD700C6AC8B /* LocalDataService.swift */,
-				5345413A2B792B8000D5985E /* Score.swift */,
-				534541382B7922DF00D5985E /* GameService.swift */,
-				5304D7292B6D0456002BD217 /* HintTimer.swift */,
-				5304D72F2B6D8404002BD217 /* CircleButton.swift */,
-				535157062B6A811F0040E539 /* Wheel.swift */,
+				53AD21952B793FC200C6AC8B /* Models */,
+				53AD21922B793F8800C6AC8B /* Views */,
+				53AD21932B793FA400C6AC8B /* ViewModels */,
+				53AD21942B793FB500C6AC8B /* Services */,
 				534540FC2B7284C300D5985E /* generated_puzzles.json */,
 				5304D7192B6BE2C4002BD217 /* 4_letter_word_hints_no_duplicates.csv */,
 				535156DC2B6A65A30040E539 /* Assets.xcassets */,
@@ -173,6 +163,48 @@
 				535156F52B6A65A30040E539 /* WordGameUITestsLaunchTests.swift */,
 			);
 			path = WordGameUITests;
+			sourceTree = "<group>";
+		};
+		53AD21922B793F8800C6AC8B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5304D7392B6EB289002BD217 /* CustomBackButton.swift */,
+				535156D82B6A65A20040E539 /* WordGameApp.swift */,
+				5304D7312B6D84A8002BD217 /* ContentView.swift */,
+				5304D72F2B6D8404002BD217 /* CircleButton.swift */,
+				535156DA2B6A65A20040E539 /* GameView.swift */,
+				534540F82B705AD100D5985E /* SpinnerView.swift */,
+				5304D7292B6D0456002BD217 /* HintTimer.swift */,
+				534540FA2B712D9800D5985E /* InfoView.swift */,
+				535157062B6A811F0040E539 /* Wheel.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		53AD21932B793FA400C6AC8B /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				5304D72D2B6D7A80002BD217 /* GameTimer.swift */,
+				535157082B6A95100040E539 /* GameViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		53AD21942B793FB500C6AC8B /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				53AD21902B793CD700C6AC8B /* LocalDataService.swift */,
+				534541382B7922DF00D5985E /* APIService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		53AD21952B793FC200C6AC8B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5345413A2B792B8000D5985E /* Score.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -311,7 +343,7 @@
 				5345413B2B792B8000D5985E /* Score.swift in Sources */,
 				535156DB2B6A65A20040E539 /* GameView.swift in Sources */,
 				534540F92B705AD100D5985E /* SpinnerView.swift in Sources */,
-				534541392B7922DF00D5985E /* GameService.swift in Sources */,
+				534541392B7922DF00D5985E /* APIService.swift in Sources */,
 				534540FB2B712D9800D5985E /* InfoView.swift in Sources */,
 				5304D72A2B6D0456002BD217 /* HintTimer.swift in Sources */,
 				5304D7302B6D8404002BD217 /* CircleButton.swift in Sources */,

@@ -7,11 +7,11 @@
 
 import Foundation
 
-class GameService{
+class APIService{
     func sendPostRequest(payload: [String:Any], completion: @escaping(Score?, Error?) -> Void) {
         guard let url = URL(string: "https://us-central1-lexi-word-game.cloudfunctions.net/updatePuzzleScore") else {
-//            requestError = true
-//            waitingForRequest = false
+            let error = NSError(domain: "YourDomain", code: 400, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])
+            completion(nil, error)
             return
         }
         
