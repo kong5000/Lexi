@@ -29,6 +29,7 @@
 		535156F62B6A65A30040E539 /* WordGameUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535156F52B6A65A30040E539 /* WordGameUITestsLaunchTests.swift */; };
 		535157072B6A811F0040E539 /* Wheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535157062B6A811F0040E539 /* Wheel.swift */; };
 		535157092B6A95100040E539 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535157082B6A95100040E539 /* GameViewModel.swift */; };
+		53AD21912B793CD700C6AC8B /* LocalDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AD21902B793CD700C6AC8B /* LocalDataService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		535156F52B6A65A30040E539 /* WordGameUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGameUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		535157062B6A811F0040E539 /* Wheel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wheel.swift; sourceTree = "<group>"; };
 		535157082B6A95100040E539 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		53AD21902B793CD700C6AC8B /* LocalDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDataService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 				534540F82B705AD100D5985E /* SpinnerView.swift */,
 				534540FA2B712D9800D5985E /* InfoView.swift */,
 				535157082B6A95100040E539 /* GameViewModel.swift */,
+				53AD21902B793CD700C6AC8B /* LocalDataService.swift */,
 				5345413A2B792B8000D5985E /* Score.swift */,
 				534541382B7922DF00D5985E /* GameService.swift */,
 				5304D7292B6D0456002BD217 /* HintTimer.swift */,
@@ -312,6 +315,7 @@
 				534540FB2B712D9800D5985E /* InfoView.swift in Sources */,
 				5304D72A2B6D0456002BD217 /* HintTimer.swift in Sources */,
 				5304D7302B6D8404002BD217 /* CircleButton.swift in Sources */,
+				53AD21912B793CD700C6AC8B /* LocalDataService.swift in Sources */,
 				5304D72E2B6D7A80002BD217 /* GameTimer.swift in Sources */,
 				5304D7322B6D84A8002BD217 /* ContentView.swift in Sources */,
 				535156D92B6A65A20040E539 /* WordGameApp.swift in Sources */,

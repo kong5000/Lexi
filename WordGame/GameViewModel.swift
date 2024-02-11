@@ -19,14 +19,10 @@ struct Word: Decodable {
 typealias Puzzle = [Word]
 
 class GameViewModel: ObservableObject {
-    @AppStorage("top10") private var top10Finishes = 0
-    @AppStorage("top100") private var top100Finishes = 0
-    @AppStorage("dailyFinishes") private var dailyFinishes = 0
-    @AppStorage("topFinish") private var topFinish = 999999
-    @AppStorage("tutorial") private var tutorial = true
-    
+    private var previousTopFinish: Int
     var score : Score?
     private let service = GameService()
+    private let localDataService = LocalDataService()
     private var practiceMode = false
     private var tutorialMode = false
     private var words = [Word]()
@@ -73,6 +69,7 @@ class GameViewModel: ObservableObject {
     var gameWords = [Word]()
     
     init() {
+        previousTopFinish = localDataService.getTopFinish()
         if let url = Bundle.main.url(forResource: "generated_puzzles", withExtension: "json") {
             do {
                 let data = try Data(contentsOf: url)
@@ -308,13 +305,13 @@ class GameViewModel: ObservableObject {
                     self.requestError = false
                     self.resultText = "\(self.ordinalNumber(newScore.place)) out of \(newScore.players) players"
                     if(newScore.place <= 10){
-                        self.top10Finishes += 1
+                        self.localDataService.newTop10()
                     }else if(newScore.place <= 100){
-                        self.top100Finishes += 1
+                        self.localDataService.newTop100()
                     }
-                    self.dailyFinishes += 1
-                    if(newScore.place < self.topFinish){
-                        self.topFinish = newScore.place
+                    self.localDataService.newDailyFinish()
+                    if(newScore.place < self.previousTopFinish){
+                        self.localDataService.newTopFinish(place:newScore.place)
                         self.newRecord = true
                     }
                     self.waitingForRequest = false
