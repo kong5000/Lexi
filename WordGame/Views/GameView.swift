@@ -131,7 +131,7 @@ struct GameView: View {
             ProgressView(value: viewModel.gameProgress)
                 .tint(themeManager.themeColor)
                 .padding()
-            Text(viewModel.gameWords[viewModel.questionIndex].hint)
+            Text(viewModel.currentWord.hint)
                 .frame(height: 120)
                 .padding()
             
