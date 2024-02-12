@@ -12,7 +12,7 @@ class LocalDataService{
     @AppStorage("top100") private var top100Finishes = 0
     @AppStorage("dailyFinishes") private var dailyFinishes = 0
     @AppStorage("topFinish") private var topFinish = 999999
-    @AppStorage("tutorial") private var tutorial = true
+    @AppStorage("tutorial") var tutorialMode = true
     
     func getTopFinish() -> Int{
         return topFinish
@@ -35,6 +35,6 @@ class LocalDataService{
     }
     
     func setTutorialMode(active: Bool){
-        tutorial = active
+        tutorialMode = active
     }
 }

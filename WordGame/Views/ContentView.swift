@@ -9,10 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var themeManager = ThemeManager()
-    @AppStorage("lastLogin") private var lastLogin = "Jan 01"
     @AppStorage("isDarkMode") private var isDarkMode = true
-    @AppStorage("dailyFinishes") private var dailyFinishes = 0
-    @AppStorage("tutorial") private var tutorial = true
     
     var body: some View {
         NavigationStack{
@@ -55,15 +52,6 @@ struct ContentView: View {
                         Spacer()
                     }
                     Spacer()
-                }
-            }
-            .onAppear(){
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "MMM d"
-                lastLogin = dateFormatter.string(from: Date())
-                
-                if(dailyFinishes > 0){
-                    tutorial = false
                 }
             }
         }

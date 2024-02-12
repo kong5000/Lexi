@@ -13,7 +13,7 @@ class Game {
     private let networkingService = APIService()
     
     var practiceMode = false
-    var tutorialMode = false
+    var tutorialMode: Bool
     
     var puzzles = [[Word]]()
     var solvedWords = [String]()
@@ -41,6 +41,7 @@ class Game {
     var players = 0
     
     init(){
+        tutorialMode = localDataService.tutorialMode
         previousTopFinish = localDataService.getTopFinish()
         loadPuzzles()
         loadPracticeWords()
@@ -260,5 +261,9 @@ class Game {
                 }
             }
         }
+    }
+    
+    func endTutorialMode(){
+        localDataService.setTutorialMode(active: false)
     }
 }

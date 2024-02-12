@@ -19,13 +19,7 @@ struct GameView: View {
     @State private var practiceMode = false
     @State private var gameOver = false
     @State private var puzzleName = ""
-    
-    @AppStorage("top10") private var top10Finishes = 0
-    @AppStorage("top100") private var top100Finishes = 0
-    @AppStorage("dailyFinishes") private var dailyFinishes = 0
-    @AppStorage("topFinish") private var topFinish = 999999
-    @AppStorage("tutorial") private var tutorial = true
-    
+        
     func updateCountdown() {
         let currentDate = Date()
         let calendar = Calendar.current
@@ -63,7 +57,7 @@ struct GameView: View {
             dateFormatter.dateFormat = "MMM d"
             let today = dateFormatter.string(from: Date())
             
-            if(tutorial){
+            if(viewModel.tutorialMode){
                 puzzleName = "Tutorial"
             }else if(lastGameDate != today){
                 lastGameDate = today
@@ -84,7 +78,7 @@ struct GameView: View {
     
     var loadingView: some View {
         VStack {
-            if(tutorial){
+            if(viewModel.tutorialMode){
                 Text("Welcome!")
                     .modifier(TitleText())
                     .padding()
@@ -119,7 +113,7 @@ struct GameView: View {
     
     var playView: some View {
         VStack {
-            if(tutorial){
+            if(viewModel.tutorialMode){
                 Text("Tutorial")
                     .modifier(NumberCounter())
             }else{
@@ -174,8 +168,8 @@ struct GameView: View {
                         viewModel.startHintCount()
                         if(viewModel.gameProgress >= 1.0){
                             gameTimer.stopTimer()
-                            if(tutorial){
-                                tutorial = false
+                            if(viewModel.tutorialMode){
+                                viewModel.endTutorialMode()
                             }
                             if(!practiceMode){
                                 let payload: [String: Any] = [
@@ -211,7 +205,7 @@ struct GameView: View {
             Text("Time: \(gameTimer.secondsElapsed.formatted())s")
                 .padding()
             
-            if(viewModel.requestError && !tutorial){
+            if(viewModel.requestError && !viewModel.tutorialMode){
                 Text("Sorry, could not connect to our server for your daily ranking")
                     .opacity(viewModel.waitingForRequest ? 0 : 1)
                     .padding()
@@ -224,14 +218,14 @@ struct GameView: View {
                     .frame(height: 50)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.bottom, 100)
-                if(viewModel.newRecord && !tutorial){
+                if(viewModel.newRecord && !viewModel.tutorialMode){
                     Text("New Record!")
                         .modifier(TitleText())
                         .opacity(viewModel.waitingForRequest ? 0 : 1)
                         .frame(height: 50)
                         .padding(.bottom, 100)
                 }
-                if(tutorial){
+                if(viewModel.tutorialMode){
                     Text("Daily puzzle now available!")
                         .font(.system(size: 30))
                         .opacity(viewModel.waitingForRequest ? 0 : 1)

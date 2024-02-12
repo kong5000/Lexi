@@ -10,13 +10,21 @@ import SwiftUI
 
 
 class GameViewModel: ObservableObject {
-    private var model = Game()
+    @Published private var model = Game()
     @Published var requestError = false
     @Published var waitingForRequest = false
     
     private let localDataService = LocalDataService()
     private let networkingService = APIService()
+        
+
+    var tutorialMode: Bool {
+        model.tutorialMode
+    }
     
+    func endTutorialMode(){
+        model.endTutorialMode()
+    }
     var letter1: String {
         get {model.letter1}
         set {model.letter1 = newValue}
@@ -80,7 +88,7 @@ class GameViewModel: ObservableObject {
         if(puzzleName == "Practice"){
             model.startPracticeMode()
         }else if(puzzleName == "Tutorial"){
-            model.startPracticeMode()
+            model.startTutorialMode()
         }else{
             model.startDailyMode()
         }
