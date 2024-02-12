@@ -53,25 +53,11 @@ struct GameView: View {
         .animation(.easeInOut(duration: 1), value: viewModel.waitingForRequest)
         .animation(.linear(duration: 1.6), value: viewModel.newRecord)
         .onAppear {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MMM d"
-            let today = dateFormatter.string(from: Date())
-            
-            if(viewModel.tutorialMode){
-                puzzleName = "Tutorial"
-            }else if(lastGameDate != today){
-                lastGameDate = today
-                puzzleName = today
-            }else{
-                puzzleName = "Practice"
-                practiceMode = true
-            }
-            viewModel.startGame(puzzleName: puzzleName)
+            viewModel.startGame()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 loading = false
                 gameTimer.startTimer()
-                viewModel.startHintCount()
             }
         }
     }

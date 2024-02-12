@@ -21,6 +21,9 @@ class GameViewModel: ObservableObject {
     var tutorialMode: Bool {
         model.tutorialMode
     }
+    var practiceMode: Bool {
+        model.practiceMode
+    }
     
     func endTutorialMode(){
         model.endTutorialMode()
@@ -84,14 +87,15 @@ class GameViewModel: ObservableObject {
         return model.submitWord()
     }
     
-    func startGame(puzzleName: String){
-        if(puzzleName == "Practice"){
-            model.startPracticeMode()
-        }else if(puzzleName == "Tutorial"){
+    func startGame(){
+        if(tutorialMode){
             model.startTutorialMode()
+        }else if(practiceMode){
+            model.startPracticeMode()
         }else{
             model.startDailyMode()
         }
+        startHintCount()
     }
     
     func sendScore(payload:[String:Any]){

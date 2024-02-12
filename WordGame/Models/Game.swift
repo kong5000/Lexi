@@ -12,7 +12,7 @@ class Game {
     private let localDataService = LocalDataService()
     private let networkingService = APIService()
     
-    var practiceMode = false
+    var practiceMode: Bool
     var tutorialMode: Bool
     
     var puzzles = [[Word]]()
@@ -40,9 +40,29 @@ class Game {
     var place = 0
     var players = 0
     
+    var lastGameDate: String
+    var puzzleName: String
+    
     init(){
         tutorialMode = localDataService.tutorialMode
+        lastGameDate = localDataService.lastGameDate
         previousTopFinish = localDataService.getTopFinish()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d"
+        let today = dateFormatter.string(from: Date())
+        
+        practiceMode = false
+        if(tutorialMode){
+            puzzleName = "Tutorial"
+        }else if(lastGameDate != today){
+            lastGameDate = today
+            puzzleName = today
+        }else{
+            puzzleName = "Practice"
+            practiceMode = true
+        }
+        
         loadPuzzles()
         loadPracticeWords()
     }

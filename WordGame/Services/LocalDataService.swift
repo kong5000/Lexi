@@ -13,7 +13,8 @@ class LocalDataService{
     @AppStorage("dailyFinishes") private var dailyFinishes = 0
     @AppStorage("topFinish") private var topFinish = 999999
     @AppStorage("tutorial") var tutorialMode = true
-    
+    @AppStorage("lastGameDate") var lastGameDate = "Jan 01"
+
     func getTopFinish() -> Int{
         return topFinish
     }
