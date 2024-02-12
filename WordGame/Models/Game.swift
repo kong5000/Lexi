@@ -35,13 +35,10 @@ class Game {
     
     var questionIndex = 0
     
-    var requestError = false
-    var waitingForRequest = false
-    
     var newRecord = false
     var previousTopFinish: Int
-    @Published var place = 0
-    @Published var players = 0
+    var place = 0
+    var players = 0
     
     init(){
         previousTopFinish = localDataService.getTopFinish()
@@ -239,12 +236,10 @@ class Game {
         letter4 = wheelLetters[3][0]
     }
     
-    func sendScore(payload:[String:Any]){
-        self.waitingForRequest = true
+    func sendScore(payload:[String:Any],callback:  @escaping (_ requestError: Bool, _ waitingForRequest:Bool)-> Void){
         networkingService.sendPostRequest(payload: payload){newScore, error in
             if let newScore = newScore {
                 DispatchQueue.main.async{
-                    self.requestError = false
                     self.place = newScore.place
                     self.players = newScore.players
                     if(newScore.place <= 10){
@@ -257,12 +252,11 @@ class Game {
                         self.localDataService.newTopFinish(place:newScore.place)
                         self.newRecord = true
                     }
-                    self.waitingForRequest = false
+                    callback(false, false)
                 }
             }else{
                 DispatchQueue.main.async{
-                    self.requestError = true
-                    self.waitingForRequest = false
+                    callback(true, false)
                 }
             }
         }

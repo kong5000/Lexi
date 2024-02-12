@@ -65,16 +65,14 @@ struct GameView: View {
             
             if(tutorial){
                 puzzleName = "Tutorial"
-                viewModel.startTutorialMode()
             }else if(lastGameDate != today){
                 lastGameDate = today
                 puzzleName = today
-                viewModel.startDailyMode()
             }else{
                 puzzleName = "Practice"
                 practiceMode = true
-                viewModel.startPracticeMode()
             }
+            viewModel.startGame(puzzleName: puzzleName)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 loading = false
