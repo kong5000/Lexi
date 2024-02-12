@@ -13,7 +13,7 @@ struct Wheel: View {
     @Binding var selectedLetter: String
     @State private var onChangedExecuted = false
     var letters: [String]
-    @Binding var hint: String?
+    var hint: String?
     @StateObject private var themeManager = ThemeManager()
 
     var body: some View {
@@ -42,5 +42,5 @@ struct Wheel: View {
 }
 
 #Preview {
-    Wheel(selectedLetter: .constant("A"), letters: ["A","B","C"], hint:.constant("A"))
+    Wheel(selectedLetter: .constant("A"), letters: ["A","B","C"], hint:"A")
 }

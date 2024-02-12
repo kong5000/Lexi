@@ -32,6 +32,7 @@
 		53AD21912B793CD700C6AC8B /* LocalDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AD21902B793CD700C6AC8B /* LocalDataService.swift */; };
 		53AD21972B79854000C6AC8B /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AD21962B79854000C6AC8B /* Word.swift */; };
 		53AD219A2B7985FF00C6AC8B /* TextStyling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AD21992B7985FF00C6AC8B /* TextStyling.swift */; };
+		53AD219C2B7A31F800C6AC8B /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AD219B2B7A31F800C6AC8B /* Game.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		53AD21902B793CD700C6AC8B /* LocalDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDataService.swift; sourceTree = "<group>"; };
 		53AD21962B79854000C6AC8B /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		53AD21992B7985FF00C6AC8B /* TextStyling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextStyling.swift; sourceTree = "<group>"; };
+		53AD219B2B7A31F800C6AC8B /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				5345413A2B792B8000D5985E /* Score.swift */,
+				53AD219B2B7A31F800C6AC8B /* Game.swift */,
 				53AD21962B79854000C6AC8B /* Word.swift */,
 			);
 			path = Models;
@@ -355,6 +358,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5345413B2B792B8000D5985E /* Score.swift in Sources */,
+				53AD219C2B7A31F800C6AC8B /* Game.swift in Sources */,
 				53AD219A2B7985FF00C6AC8B /* TextStyling.swift in Sources */,
 				53AD21972B79854000C6AC8B /* Word.swift in Sources */,
 				535156DB2B6A65A20040E539 /* GameView.swift in Sources */,

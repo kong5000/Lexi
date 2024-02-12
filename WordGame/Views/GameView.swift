@@ -137,19 +137,19 @@ struct GameView: View {
             
             HStack(alignment: .top){
                 VStack{
-                    Wheel(selectedLetter: $viewModel.letter1, letters: viewModel.wheelLetters[0], hint: $viewModel.hint1)
+                    Wheel(selectedLetter: $viewModel.letter1, letters: viewModel.wheelLetters[0], hint: viewModel.hints[0])
                     Spacer()
                 }
                 VStack{
-                    Wheel(selectedLetter: $viewModel.letter2, letters: viewModel.wheelLetters[1], hint: $viewModel.hint2)
+                    Wheel(selectedLetter: $viewModel.letter2, letters: viewModel.wheelLetters[1], hint: viewModel.hints[1])
                     Spacer()
                 }
                 VStack{
-                    Wheel(selectedLetter: $viewModel.letter3, letters: viewModel.wheelLetters[2], hint: $viewModel.hint3)
+                    Wheel(selectedLetter: $viewModel.letter3, letters: viewModel.wheelLetters[2], hint: viewModel.hints[2])
                     Spacer()
                 }
                 VStack{
-                    Wheel(selectedLetter: $viewModel.letter4, letters: viewModel.wheelLetters[3], hint: $viewModel.hint4)
+                    Wheel(selectedLetter: $viewModel.letter4, letters: viewModel.wheelLetters[3], hint: viewModel.hints[3])
                     Spacer()
                 }
             }

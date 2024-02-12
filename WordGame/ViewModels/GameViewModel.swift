@@ -8,9 +8,9 @@
 import Foundation
 import SwiftUI
 
-let GAME_LENGTH = 8
 
 class GameViewModel: ObservableObject {
+    private static let GAME_LENGTH = 8
     private let localDataService = LocalDataService()
     private let networkingService = APIService()
     
@@ -28,11 +28,8 @@ class GameViewModel: ObservableObject {
     var letter3: String = ""
     var letter4: String = ""
     
-    var hint1: String? = nil
-    var hint2: String? = nil
-    var hint3: String? = nil
-    var hint4: String? = nil
-    
+    @Published var hints: [String?] = [nil,nil,nil,nil]
+
     var hintState: Int = 0
     var hintButtonActive = false
     var hintCountDownTimer: Timer?
@@ -135,18 +132,8 @@ class GameViewModel: ObservableObject {
             let randomHint = hintIndexes[randomIndex]
             hintIndexes.remove(at: randomIndex)
             
-            switch randomHint {
-            case 0:
-                hint1 = ("\(gameWords[questionIndex].word[0])".capitalized)
-            case 1:
-                hint2 = ("\(gameWords[questionIndex].word[1])".capitalized)
-            case 2:
-                hint3 = ("\(gameWords[questionIndex].word[2])".capitalized)
-            case 3:
-                hint4 = ("\(gameWords[questionIndex].word[3])".capitalized)
-            default:
-                print("")
-            }
+            hints[randomHint] = ("\(gameWords[questionIndex].word[randomHint])".capitalized)
+            
             hintState += 1
             
             startHintCount()
@@ -155,10 +142,7 @@ class GameViewModel: ObservableObject {
     
     private func resetHints(){
         hintIndexes = [0,1,2,3]
-        hint1 = nil
-        hint2 = nil
-        hint3 = nil
-        hint4 = nil
+        hints = [nil,nil,nil,nil]
     }
     
     func submitWord() -> Bool{
@@ -251,7 +235,7 @@ class GameViewModel: ObservableObject {
         practiceMode = true
         gameWords = [Word]()
         
-        for _ in 0..<GAME_LENGTH{
+        for _ in 0..<GameViewModel.GAME_LENGTH{
             gameWords.append(drawWordHints())
         }
         
