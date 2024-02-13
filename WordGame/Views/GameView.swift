@@ -6,38 +6,19 @@
 //
 
 import SwiftUI
-import AVFoundation
 
 struct GameView: View {
-    @State private var showingAlert = false
     @State private var loading = true
     @StateObject private var viewModel = GameViewModel()
-    @StateObject private var gameTimer = GameTimer()
     @StateObject private var themeManager = ThemeManager()
-    @AppStorage("lastGameDate") private var lastGameDate = "Jan 01"
-    @State private var timeRemaining = ""
-    @State private var practiceMode = false
-    @State private var gameOver = false
-    @State private var puzzleName = ""
-        
-    func updateCountdown() {
-        let currentDate = Date()
-        let calendar = Calendar.current
-        if let nextMidnight = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: currentDate.addingTimeInterval(24 * 60 * 60)) {
-            let components = calendar.dateComponents([.hour, .minute, .second], from: currentDate, to: nextMidnight)
-            if let hours = components.hour, let minutes = components.minute, let seconds = components.second {
-                timeRemaining = String(format: "%02dh %02dm %02ds", hours, minutes, seconds)
-            }
-        }
-    }
-    
+   
     var body: some View {
         ZStack{
             themeManager.accentColor.ignoresSafeArea()
             if(loading){
                 loadingView
             }else{
-                if(!gameOver){
+                if(!viewModel.gameOver){
                     playView
                 }else{
                     Spacer()
@@ -47,17 +28,14 @@ struct GameView: View {
             }
         }
         .modifier(MediumText())
-        .foregroundColor(themeManager.themeColor)
         .animation(.easeInOut(duration: 1.25), value: loading)
-        .animation(.linear(duration: 3.25), value: gameOver)
+        .animation(.linear(duration: 3.25), value: viewModel.gameOver)
         .animation(.easeInOut(duration: 1), value: viewModel.waitingForRequest)
         .animation(.linear(duration: 1.6), value: viewModel.newRecord)
         .onAppear {
-            viewModel.startGame()
-            
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 loading = false
-                gameTimer.startTimer()
+                viewModel.startGame()
             }
         }
     }
@@ -72,22 +50,8 @@ struct GameView: View {
                     .padding()
                     .padding(.bottom, 100)
             }
-            else if(practiceMode){
-                VStack {
-                    Text("New daily puzzle in:")
-                    Text(timeRemaining)
-                        .modifier(NumberCounter())
-                    Text("Loading practice puzzle")
-                        .padding()
-                        .padding(.bottom, 100)
-                }
-                .onAppear {
-                    updateCountdown()
-                    // Update the countdown every second
-                    Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                        updateCountdown()
-                    }
-                }
+            else if(viewModel.practiceMode){
+                CountDownView()
             }else{
                 Text("Loading the daily puzzle")
                     .frame(height: 120)
@@ -103,7 +67,7 @@ struct GameView: View {
                 Text("Tutorial")
                     .modifier(NumberCounter())
             }else{
-                Text("\(gameTimer.secondsElapsed, specifier: "%.1f")")
+                Text("\(viewModel.secondsElapsed, specifier: "%.1f")")
                     .modifier(NumberCounter())
             }
             ProgressView(value: viewModel.gameProgress)
@@ -138,10 +102,7 @@ struct GameView: View {
             HStack{
                 Spacer()
                 Button(action: {
-                    if viewModel.hintButtonActive {
-                        viewModel.generateHint()
-                        AudioServicesPlaySystemSound(1114)
-                    }
+                    viewModel.hintIntent()
                 }) {
                     HintTimer(progress: viewModel.hintProgress)
                 }
@@ -149,28 +110,7 @@ struct GameView: View {
                 .padding()
                 Spacer()
                 Button{
-                    if(viewModel.submitWord()){
-                        AudioServicesPlaySystemSound(1305)
-                        viewModel.startHintCount()
-                        if(viewModel.gameProgress >= 1.0){
-                            gameTimer.stopTimer()
-                            if(viewModel.tutorialMode){
-                                viewModel.endTutorialMode()
-                            }
-                            if(!practiceMode){
-                                let payload: [String: Any] = [
-                                    "puzzleId": puzzleName,
-                                    "score": gameTimer.secondsElapsed,
-                                ]
-                                viewModel.sendScore(payload:payload)
-                            }
-                            withAnimation{
-                                gameOver = true
-                            }
-                        }
-                    }else{
-                        AudioServicesPlaySystemSound(1306)
-                    }
+                    viewModel.submitWord()
                 }label:{
                     Text("SUBMIT")
                         .padding()
@@ -187,8 +127,8 @@ struct GameView: View {
     
     var gameOverView: some View {
         VStack{
-            Text("\(puzzleName) Puzzle")
-            Text("Time: \(gameTimer.secondsElapsed.formatted())s")
+            Text("\(viewModel.puzzleName) Puzzle")
+            Text("Time: \(viewModel.secondsElapsed.formatted())s")
                 .padding()
             
             if(viewModel.requestError && !viewModel.tutorialMode){

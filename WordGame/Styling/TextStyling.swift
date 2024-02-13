@@ -16,16 +16,22 @@ struct TitleText: ViewModifier {
 }
 
 struct NumberCounter: ViewModifier {
+    private var themeManager = ThemeManager()
+
     func body(content: Content) -> some View {
         content
             .font(.system(size: 25).monospacedDigit())
+            .foregroundColor(themeManager.themeColor)
     }
 }
 
 struct MediumText: ViewModifier {
+    private var themeManager = ThemeManager()
+
     func body(content: Content) -> some View {
         content
             .font(.system(size: 25))
+            .foregroundColor(themeManager.themeColor)
     }
 }
 

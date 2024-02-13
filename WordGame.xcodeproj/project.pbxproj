@@ -34,6 +34,7 @@
 		53AD219A2B7985FF00C6AC8B /* TextStyling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AD21992B7985FF00C6AC8B /* TextStyling.swift */; };
 		53AD219C2B7A31F800C6AC8B /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AD219B2B7A31F800C6AC8B /* Game.swift */; };
 		53AD21D82B7A64BA00C6AC8B /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AD21D72B7A64BA00C6AC8B /* Utilities.swift */; };
+		53AD21DB2B7B89CE00C6AC8B /* CountDownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AD21DA2B7B89CE00C6AC8B /* CountDownView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,7 @@
 		53AD21992B7985FF00C6AC8B /* TextStyling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextStyling.swift; sourceTree = "<group>"; };
 		53AD219B2B7A31F800C6AC8B /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		53AD21D72B7A64BA00C6AC8B /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		53AD21DA2B7B89CE00C6AC8B /* CountDownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +183,7 @@
 				535156D82B6A65A20040E539 /* WordGameApp.swift */,
 				5304D7312B6D84A8002BD217 /* ContentView.swift */,
 				5304D72F2B6D8404002BD217 /* CircleButton.swift */,
+				53AD21DA2B7B89CE00C6AC8B /* CountDownView.swift */,
 				535156DA2B6A65A20040E539 /* GameView.swift */,
 				534540F82B705AD100D5985E /* SpinnerView.swift */,
 				5304D7292B6D0456002BD217 /* HintTimer.swift */,
@@ -378,6 +381,7 @@
 				534540FB2B712D9800D5985E /* InfoView.swift in Sources */,
 				5304D72A2B6D0456002BD217 /* HintTimer.swift in Sources */,
 				5304D7302B6D8404002BD217 /* CircleButton.swift in Sources */,
+				53AD21DB2B7B89CE00C6AC8B /* CountDownView.swift in Sources */,
 				53AD21912B793CD700C6AC8B /* LocalDataService.swift in Sources */,
 				5304D72E2B6D7A80002BD217 /* GameTimer.swift in Sources */,
 				5304D7322B6D84A8002BD217 /* ContentView.swift in Sources */,

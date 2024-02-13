@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var themeManager = ThemeManager()
+    private var themeManager = ThemeManager()
     @AppStorage("isDarkMode") private var isDarkMode = true
     
     var body: some View {

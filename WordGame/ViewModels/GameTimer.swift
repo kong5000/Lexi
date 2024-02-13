@@ -5,16 +5,16 @@ final class GameTimer: ObservableObject {
 
     private weak var timer: Timer?
     private var frequency = 0.1
-   
+    
     init() {
         secondsElapsed = 0.0
     }
     
-    func startTimer() {
+    func startTimer(callback: @escaping()->Void) {
         stopTimer()
         secondsElapsed = 0.0
         timer = Timer.scheduledTimer(withTimeInterval: frequency, repeats: true) { [weak self] timer in
-            self?.update()
+            callback()
         }
         
         if let timer = timer {
@@ -29,7 +29,10 @@ final class GameTimer: ObservableObject {
     }
 
     nonisolated private func update() {
-            secondsElapsed += 0.1
+        DispatchQueue.main.async { [weak self] in
+            self?.secondsElapsed += 0.1
+            
+        }
     }
     
     func reset(lengthInMinutes: Int) {

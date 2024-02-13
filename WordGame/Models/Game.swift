@@ -43,6 +43,8 @@ class Game {
     var lastGameDate: String
     var puzzleName: String
     
+    var gameOver = false
+    
     init(){
         tutorialMode = localDataService.tutorialMode
         lastGameDate = localDataService.lastGameDate
@@ -184,8 +186,12 @@ class Game {
             resetHints()
             if(questionIndex < gameWords.count - 1){
                 questionIndex += 1
+                startHintCount()
             }else{
-                //                    End Game?
+                gameOver = true
+                if(tutorialMode){
+                    endTutorialMode()
+                }
             }
             return true
         }

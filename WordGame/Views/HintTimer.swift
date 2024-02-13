@@ -28,7 +28,6 @@ struct HintTimer: View {
                     )
                 )
                 .animation(.easeOut, value: progress)
-
             Circle()
                 .fill( progress < 1.0 ?  themeManager.themeColor.opacity(0.33) : themeManager.themeColor)
                 .frame(width: 70)
